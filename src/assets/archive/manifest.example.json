@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "file": "1999-konvoi.jpg",
+      "cat": "KRONOLOGJI",
+      "title": { "sq": "Konvoji i largimit — në mes të rrugës", "en": "The convoy leaving — mid-road" },
+      "date": { "sq": "1999", "en": "1999" },
+      "loc": { "sq": "Malishevë, Kosovë", "en": "Malisheva, Kosovo" },
+      "source": { "sq": "Fotografi: viti 1999", "en": "Photograph: 1999" },
+      "desc": {
+        "sq": "Përshkrim i shkurtër i materialit të ruajtur.",
+        "en": "Short description of the preserved material."
+      }
+    },
+    {
+      "file": "2019-haga-gjykata.mp4",
+      "cat": "HAGA",
+      "title": { "sq": "Pamje nga ndërtesa e Dhomave të Specializuara", "en": "View of the Specialist Chambers building" },
+      "date": { "sq": "2019", "en": "2019" },
+      "loc": { "sq": "Hagë, Hollandë", "en": "The Hague, Netherlands" },
+      "source": { "sq": "Video: burimi i licencuar", "en": "Video: licensed source" },
+      "desc": {
+        "sq": "Përshkrim i shkurtër i materialit të ruajtur.",
+        "en": "Short description of the preserved material."
+      }
+    }
+  ]
+}

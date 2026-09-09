@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grain" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#090909"/>
+      <circle cx="1" cy="1" r="0.5" fill="#ffffff" opacity="0.04"/>
+      <circle cx="3" cy="3" r="0.5" fill="#ffffff" opacity="0.03"/>
+    </pattern>
+    <radialGradient id="halo" cx="50%" cy="42%" r="70%">
+      <stop offset="0%" stop-color="#16120a"/>
+      <stop offset="55%" stop-color="#0a0908"/>
+      <stop offset="100%" stop-color="#050504"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#halo)"/>
+  <rect width="1200" height="630" fill="url(#grain)" opacity="0.6"/>
+  <line x1="0" y1="52" x2="1200" y2="52" stroke="#2a2722" stroke-width="1"/>
+  <line x1="0" y1="578" x2="1200" y2="578" stroke="#2a2722" stroke-width="1"/>
+  <text x="60" y="220" font-family="Helvetica, Arial, sans-serif" font-size="150" font-weight="700" letter-spacing="34" fill="#e8e4da">KATËR</text>
+  <text x="62" y="292" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="400" letter-spacing="6" fill="#a8a39a">Historia nuk pret.</text>
+  <rect x="60" y="380" width="44" height="4" fill="#a6101f"/>
+  <text x="62" y="452" font-family="Courier New, monospace" font-size="26" letter-spacing="4" fill="#8a877e">16 SHTATOR 2026</text>
+  <text x="62" y="496" font-family="Courier New, monospace" font-size="26" letter-spacing="4" fill="#8a877e">10:00 — HAGË</text>
+  <text x="1140" y="452" font-family="Courier New, monospace" font-size="22" letter-spacing="3" fill="#5d5a52" text-anchor="end">KOSOVO</text>
+  <text x="1140" y="496" font-family="Courier New, monospace" font-size="22" letter-spacing="3" fill="#5d5a52" text-anchor="end">ARCHIVE // DOC 000</text>
+</svg>
