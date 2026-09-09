@@ -262,15 +262,6 @@ export function History() {
           >
             {t(history.subtitle)}
           </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="mt-8 max-w-2xl text-sm leading-relaxed text-fog/80 md:text-base"
-          >
-            {t(history.lead)}
-          </motion.p>
         </div>
       </div>
 

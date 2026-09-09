@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from 'motion/react'
 import { ArchiveScene, PhotoMeta } from './ArchiveScene'
 import { CineFrame } from './cine/CineFrame'
 import { memorial } from '../lib/content'
+import { getMemorialFrames } from '../lib/media'
 import { useI18n } from '../lib/i18n'
 import { cn, EASE } from '../lib/util'
 
@@ -23,6 +24,7 @@ function QuoteBlock({ text, delay = 0 }: { text: string; delay?: number }) {
 export function Memorial() {
   const { t } = useI18n()
   const reduce = useReducedMotion()
+  const memorialFrames = getMemorialFrames()
 
   const Names = ({ ariaHidden = false }: { ariaHidden?: boolean }) => (
     <ul aria-hidden={ariaHidden} className="flex flex-col">
@@ -113,21 +115,50 @@ export function Memorial() {
         className="relative z-10 mx-auto mt-20 max-w-[1480px] px-5 md:mt-28 md:px-8"
       >
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-          {memorial.frames.map((s, i) => (
-            <div key={i} className="group relative">
-              <CineFrame
-                tone={i % 2 === 0 ? 'night' : 'day'}
-                particles={i % 3 === 0 ? 'embers' : 'ash'}
-                duration={14 + i * 2}
-                className="aspect-[4/3]"
-              >
-                <ArchiveScene scene={s} className="h-full w-full" />
-              </CineFrame>
-              <div className="mt-2">
-                <PhotoMeta scene={s} />
+          {memorial.frames.map((s, i) => {
+            const m = memorialFrames[i]
+            return (
+              <div key={i} className="group relative">
+                <CineFrame
+                  tone={i % 2 === 0 ? 'night' : 'day'}
+                  particles={i % 3 === 0 ? 'embers' : 'ash'}
+                  duration={14 + i * 2}
+                  className="aspect-[4/3]"
+                >
+                  {m ? (
+                    m.isVideo ? (
+                      <video
+                        src={m.url}
+                        muted
+                        loop
+                        autoPlay
+                        playsInline
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={m.url}
+                        alt={t(s.label)}
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
+                    )
+                  ) : (
+                    <ArchiveScene scene={s} className="h-full w-full" />
+                  )}
+                </CineFrame>
+                <div className="mt-2">
+                  {m ? (
+                    <p className="font-mono text-[9px] uppercase leading-relaxed tracking-[0.2em] text-fog/70">
+                      {m.credit ?? 'Wikimedia Commons'}
+                    </p>
+                  ) : (
+                    <PhotoMeta scene={s} />
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </motion.div>
 

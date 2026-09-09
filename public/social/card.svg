@@ -15,11 +15,11 @@
   <rect width="1200" height="630" fill="url(#grain)" opacity="0.6"/>
   <line x1="0" y1="52" x2="1200" y2="52" stroke="#2a2722" stroke-width="1"/>
   <line x1="0" y1="578" x2="1200" y2="578" stroke="#2a2722" stroke-width="1"/>
-  <text x="60" y="220" font-family="Helvetica, Arial, sans-serif" font-size="150" font-weight="700" letter-spacing="34" fill="#e8e4da">KATËR</text>
-  <text x="62" y="292" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="400" letter-spacing="6" fill="#a8a39a">Historia nuk pret.</text>
-  <rect x="60" y="380" width="44" height="4" fill="#a6101f"/>
-  <text x="62" y="452" font-family="Courier New, monospace" font-size="26" letter-spacing="4" fill="#8a877e">16 SHTATOR 2026</text>
-  <text x="62" y="496" font-family="Courier New, monospace" font-size="26" letter-spacing="4" fill="#8a877e">10:00 — HAGË</text>
+  <text x="60" y="196" font-family="Helvetica, Arial, sans-serif" font-size="96" font-weight="700" letter-spacing="8" fill="#e8e4da">LIRIA KA EMËR</text>
+  <text x="62" y="248" font-family="Helvetica, Arial, sans-serif" font-size="32" font-weight="400" letter-spacing="6" fill="#a8a39a">Historia nuk pret.</text>
+  <rect x="60" y="320" width="44" height="4" fill="#a6101f"/>
+  <text x="62" y="392" font-family="Courier New, monospace" font-size="26" letter-spacing="4" fill="#8a877e">16 SHTATOR 2026</text>
+  <text x="62" y="436" font-family="Courier New, monospace" font-size="26" letter-spacing="4" fill="#8a877e">10:00 — HAGË</text>
   <text x="1140" y="452" font-family="Courier New, monospace" font-size="22" letter-spacing="3" fill="#5d5a52" text-anchor="end">KOSOVO</text>
   <text x="1140" y="496" font-family="Courier New, monospace" font-size="22" letter-spacing="3" fill="#5d5a52" text-anchor="end">ARCHIVE // DOC 000</text>
 </svg>

@@ -2,6 +2,7 @@ import { useApp, AppProvider } from './lib/app'
 import { I18nProvider } from './lib/i18n'
 import { FilmProvider } from './lib/film'
 import { FilmOverlay } from './components/cine/FilmOverlay'
+import { SnakeRail } from './components/SnakeRail'
 import { Intro } from './components/Intro'
 import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
@@ -53,6 +54,7 @@ export default function App() {
       <AppProvider>
         <FilmProvider>
           <Shell />
+          <SnakeRail />
           <FilmOverlay />
         </FilmProvider>
       </AppProvider>

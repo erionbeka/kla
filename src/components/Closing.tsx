@@ -11,7 +11,7 @@ export function Closing() {
   const E = EASE
 
   return (
-    <section className="relative overflow-hidden bg-black">
+    <section id="mbyllje" className="relative overflow-hidden bg-black">
       <CineParticles kind="embers" density={30} maxWidth={1920} maxHeight={1920} />
       <div className="mx-auto flex max-w-[1480px] flex-col items-start px-5 py-32 md:px-8 md:py-48">
         <motion.h2

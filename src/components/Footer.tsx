@@ -27,7 +27,7 @@ export function Footer() {
       <div className="mx-auto max-w-[1480px] px-5 py-16 md:px-8 md:py-20">
         <div className="flex flex-col justify-between gap-12 md:flex-row md:items-start">
           <div>
-            <p className="font-display text-3xl font-extrabold tracking-[0.15em] text-bone">KATËR</p>
+            <p className="font-display text-3xl font-extrabold tracking-[0.12em] text-bone">Liria ka emër</p>
             <p className="mt-3 max-w-xs text-sm text-fog">{t(footer.disclaimer2)}</p>
           </div>
 

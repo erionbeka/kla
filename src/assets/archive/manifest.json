@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "file": "2020-portret-thaci.jpg",
+      "cat": "FOTOGRAFI",
+      "title": { "sq": "HASHIM THAÇI", "en": "HASHIM THAÇI" },
+      "date": { "sq": "2016", "en": "2016" },
+      "loc": { "sq": "Prishtinë · portret zyrtar", "en": "Pristina · official portrait" },
+      "source": { "sq": "Wikimedia Commons · Presidenca e Kosovës · Domen publik", "en": "Wikimedia Commons · Presidency of Kosovo · Public domain" },
+      "desc": {
+        "sq": "Portret zyrtar i Hashim Thaçit, ish-kryeministër dhe President i Kosovës. I pranishëm si i pandehur para Dhomave të Specializuara.",
+        "en": "Official portrait of Hashim Thaçi, former Prime Minister and President of Kosovo. Now a defendant before the Specialist Chambers."
+      }
+    },
+    {
+      "file": "2020-portret-veseli.jpg",
+      "cat": "FOTOGRAFI",
+      "title": { "sq": "KADRI VESELI", "en": "KADRI VESELI" },
+      "date": { "sq": "2017", "en": "2017" },
+      "loc": { "sq": "Takim diplomatik · Estoni", "en": "Diplomatic meeting · Estonia" },
+      "source": { "sq": "Wikimedia Commons · Ministria e Jashtme e Estonisë · CC BY 2.0", "en": "Wikimedia Commons · Estonian Ministry of Foreign Affairs · CC BY 2.0" },
+      "desc": {
+        "sq": "Kadri Veseli, ish-kryetar i Kuvendit të Kosovës. I pranishëm si i pandehur para Dhomave të Specializuara.",
+        "en": "Kadri Veseli, former Speaker of the Assembly of Kosovo. Now a defendant before the Specialist Chambers."
+      }
+    },
+    {
+      "file": "2020-portret-krasniqi.jpg",
+      "cat": "FOTOGRAFI",
+      "title": { "sq": "JAKUP KRASNIQI", "en": "JAKUP KRASNIQI" },
+      "date": { "sq": "2011", "en": "2011" },
+      "loc": { "sq": "Presidenca e Kosovës", "en": "Presidency of Kosovo" },
+      "source": { "sq": "Wikimedia Commons · Presidenca e Kosovës · Domen publik", "en": "Wikimedia Commons · Presidency of Kosovo · Public domain" },
+      "desc": {
+        "sq": "Jakup Krasniqi, ish-President në detyrë i Kosovës. I pranishëm si i pandehur para Dhomave të Specializuara.",
+        "en": "Jakup Krasniqi, former Acting President of Kosovo. Now a defendant before the Specialist Chambers."
+      }
+    }
+  ]
+}

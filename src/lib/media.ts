@@ -7,6 +7,16 @@ const files: Glob = import.meta.glob('../assets/archive/**/*.{jpg,jpeg,png,webp,
   as: 'url',
 })
 
+const memorialFiles: Glob = import.meta.glob('../assets/archive/memorial/**/*.{jpg,jpeg,png,webp,gif,mp4,webm,mov}', {
+  eager: true,
+  as: 'url',
+})
+
+const heroFiles: Glob = import.meta.glob('../assets/archive/hero/**/*.{jpg,jpeg,png,webp,gif,mp4,webm,mov}', {
+  eager: true,
+  as: 'url',
+})
+
 const manifests: unknown[] = (function pull() {
   const m = import.meta.glob('../assets/archive/**/manifest.json', { eager: true, import: 'default' })
   const out: unknown[] = []
@@ -76,13 +86,62 @@ function hintSceneKind(file: string): string {
   return 'landscape'
 }
 
+export interface MediaItem {
+  url: string
+  isVideo: boolean
+  credit?: string
+}
+
+const PROFILE_FILES: Record<string, string> = {
+  thaci: '2020-portret-thaci.jpg',
+  veseli: '2020-portret-veseli.jpg',
+  krasniqi: '2020-portret-krasniqi.jpg',
+}
+
+const byBasename = Object.fromEntries(Object.entries(files).map(([p, u]) => [p.split('/').pop(), u]))
+
+export function getProfilePhoto(id: string): string | null {
+  const name = PROFILE_FILES[id]
+  return name ? byBasename[name] ?? null : null
+}
+
+const MEMORIAL_CREDITS: Record<string, string> = {
+  '01-uck.png': 'UÇK · Wikimedia Commons · CC BY-SA 4.0',
+  '02-refugees-743.jpg': 'Refugjatë 1999 · H. Kienzle · CC BY 4.0',
+  '03-refugees-807.jpg': 'Refugjatë 1999 · H. Kienzle · CC BY 4.0',
+  '04-idp-camp.jpg': 'Kampe të zhvendosurve · NATO · Domen publik',
+  '05-refugees-808.jpg': 'Refugjatë 1999 · H. Kienzle · CC BY 4.0',
+  '06-us-refugees.jpg': 'Refugjatë me zyrtarë të SHBA-së · Domen publik',
+}
+
+function toMedia(list: [string, string][]): MediaItem[] {
+  return list
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([path, url]) => ({
+      url,
+      isVideo: /\.(mp4|webm|mov)$/i.test(url),
+      credit: MEMORIAL_CREDITS[path.split('/').pop() ?? ''],
+    }))
+}
+
+export function getMemorialFrames(): MediaItem[] {
+  return toMedia(Object.entries(memorialFiles))
+}
+
+export function getHeroBackdrop(): string | null {
+  const stills = Object.entries(heroFiles).filter(([, u]) => !/\.(mp4|webm|mov)$/i.test(u))
+  return stills.length > 0 ? stills[0][1] : null
+}
+
 export function getRealItems(): ArchiveItem[] {
   const manifest: Manifest = (manifests[0] as Manifest) || {}
   const byFile = new Map<string, ManifestEntry>()
   for (const e of manifest.items || []) byFile.set(e.file, e)
 
   const out: ArchiveItem[] = []
-  const entries = Object.entries(files).filter(([path]) => !path.endsWith('/manifest.json'))
+  const entries = Object.entries(files).filter(
+    ([path]) => !path.endsWith('/manifest.json') && !/\/memorial\//.test(path) && !/\/hero\//.test(path),
+  )
   for (const [path, url] of entries) {
     const base = path.split('/').pop() || path
     const meta = byFile.get(base)

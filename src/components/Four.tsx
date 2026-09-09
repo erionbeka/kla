@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { X, ArrowUpRight } from 'lucide-react'
 import { ArchiveScene, PhotoMeta } from './ArchiveScene'
 import { CineFrame } from './cine/CineFrame'
+import { getProfilePhoto } from '../lib/media'
 import { four } from '../lib/content'
 import { useI18n } from '../lib/i18n'
 import { cn } from '../lib/util'
@@ -24,6 +25,7 @@ function ProfilePanel({
   const reduce = useReducedMotion()
   const isHovered = hovered === p.id
   const dimmed = hovered !== null && !isHovered
+  const photo = getProfilePhoto(p.id)
 
   return (
     <button
@@ -59,7 +61,11 @@ function ProfilePanel({
         className="absolute inset-0"
       >
         <CineFrame tone={index % 2 === 0 ? 'night' : 'day'} particles={index === 3 ? 'embers' : 'ash'} density={24} className="absolute inset-0">
-          <ArchiveScene scene={p.scene} className="h-full w-full" />
+          {photo ? (
+            <img src={photo} alt={t(p.name)} className="h-full w-full object-cover" />
+          ) : (
+            <ArchiveScene scene={p.scene} className="h-full w-full" />
+          )}
         </CineFrame>
       </motion.div>
 
@@ -107,6 +113,7 @@ function ProfilePanel({
 function ProfileOverlay({ id, onClose }: { id: string | null; onClose: () => void }) {
   const { t } = useI18n()
   const p = four.profiles.find((x) => x.id === id)
+  const photo = p ? getProfilePhoto(p.id) : null
 
   useEffect(() => {
     document.body.style.overflow = id ? 'hidden' : ''
@@ -136,7 +143,11 @@ function ProfileOverlay({ id, onClose }: { id: string | null; onClose: () => voi
           {/* image side */}
           <div className="relative h-[34vh] shrink-0 lg:h-full lg:w-[44%]">
 <CineFrame tone="day" particles="embers" density={30} className="absolute inset-0">
-          <ArchiveScene scene={p.scene} className="h-full w-full" />
+          {photo ? (
+            <img src={photo} alt={t(p.name)} className="h-full w-full object-cover" />
+          ) : (
+            <ArchiveScene scene={p.scene} className="h-full w-full" />
+          )}
         </CineFrame>
             <div className="absolute inset-0 bg-ink/25" />
             <div className="absolute inset-0 vignette" />

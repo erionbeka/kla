@@ -83,7 +83,7 @@ export function Nav() {
           )}
         >
           <a href="#top" className="flex items-baseline gap-2">
-            <span className="font-display text-xl font-extrabold tracking-[0.18em] text-bone">KATËR</span>
+            <span className="font-display text-xl font-extrabold tracking-[0.08em] text-bone">Liria ka emër</span>
             <span className="hidden font-mono text-[8px] uppercase tracking-[0.2em] text-fog sm:inline">// 2026</span>
           </a>
 

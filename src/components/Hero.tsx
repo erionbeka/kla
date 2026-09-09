@@ -4,11 +4,14 @@ import { ArchiveScene, PhotoMeta } from './ArchiveScene'
 import { Countdown } from './Countdown'
 import { CineFrame } from './cine/CineFrame'
 import { hero } from '../lib/content'
+import { getHeroBackdrop } from '../lib/media'
 import { useI18n } from '../lib/i18n'
 import { useFilm } from '../lib/film'
 import { isVerdictDay } from '../lib/clock'
 import { useNow } from '../lib/hooks'
 import { cn, EASE } from '../lib/util'
+
+const HERO_BACKDROP = getHeroBackdrop()
 
 export function Hero() {
   const { t } = useI18n()
@@ -29,7 +32,16 @@ export function Hero() {
 
       <motion.div style={reduce ? undefined : { y: imgY }} className="absolute inset-0">
         <CineFrame letterbox particles="embers" tone="night" className="absolute inset-0">
-          <ArchiveScene scene={hero.scene()} className="h-full w-full scale-105" />
+          {HERO_BACKDROP ? (
+            <img
+              src={HERO_BACKDROP}
+              alt=""
+              className="h-full w-full scale-105 object-cover"
+              style={{ filter: 'brightness(0.55) saturate(0.9) contrast(1.05)' }}
+            />
+          ) : (
+            <ArchiveScene scene={hero.scene()} className="h-full w-full scale-105" />
+          )}
         </CineFrame>
       </motion.div>
 
@@ -54,7 +66,7 @@ export function Hero() {
                 initial={reduce ? { opacity: 1 } : { opacity: 0, y: 34, scale: 0.96, filter: 'blur(10px)' }}
                 animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
                 transition={{ duration: 1.4, ease: EASE }}
-                className="font-display text-[16vw] font-extrabold leading-[0.82] tracking-tighter text-bone [text-shadow:0_0_40px_rgba(232,228,218,0.16)] md:text-[9rem] lg:text-[12rem]"
+                className="font-display text-[16vw] font-extrabold leading-[0.85] tracking-tighter text-bone [text-shadow:0_0_40px_rgba(232,228,218,0.16)] md:text-[9rem] lg:text-[12rem]"
               >
                 {hero.title}
               </motion.h2>

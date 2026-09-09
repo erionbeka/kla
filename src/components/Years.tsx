@@ -33,7 +33,7 @@ export function Years27() {
   })
 
   return (
-    <section className="relative bg-black">
+    <section id="vitet" className="relative bg-black">
       {/* opener */}
       <div className="mx-auto flex min-h-[92vh] max-w-[1480px] flex-col items-center justify-center px-6 text-center">
         <motion.span

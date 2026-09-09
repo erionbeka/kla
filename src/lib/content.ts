@@ -46,7 +46,7 @@ export const PH = 'PLACEHOLDER' as const
 export const intro = {
   kicker: L('KOSOVO // ARKIV', 'KOSOVO // ARCHIVE'),
   years: ['1998', '1999', '2008', '2020', '2026'] as const,
-  title: 'KATËR',
+  title: 'Liria ka emër',
   tagline: L('Historia nuk pret.', 'History does not wait.'),
   names: L('THAÇI · VESELI · SELIMI · KRASNIQI', 'THAÇI · VESELI · SELIMI · KRASNIQI'),
   date: L('16 SHTATOR 2026', '16 SEPTEMBER 2026'),
@@ -86,7 +86,7 @@ export const nav = {
 /* ------------------------------------------------------------------ */
 
 export const hero = {
-  title: 'KATËR',
+  title: 'Liria ka emër',
   lines: [
     L('Një luftë.', 'One war.'),
     L('Një shtet.', 'One state.'),
@@ -134,10 +134,7 @@ export const history = {
     'Para se të ishin emra, ishte një histori.',
     'Before they were names, there was a story.',
   ),
-  lead: L(
-    'Jo gjykatë së pari. Jo as katër burra. Një vend që pësoi.',
-    'Not the court first. Not even four men. A country that endured.',
-  ),
+  lead: '',
   chapters: [
     {
       year: '1998',
@@ -626,7 +623,7 @@ export const closing = {
   words: [L('KUJTESA.', 'MEMORY.'), L('DREJTËSIA.', 'JUSTICE.'), L('HISTORIA.', 'HISTORY.')],
   line1: L('Një vendim nuk e fshin historinë.', 'A judgment does not erase history.'),
   line2: L('Por historia do ta kujtojë këtë ditë.', 'But history will remember this day.'),
-  final: 'KATËR',
+  final: 'LIRIA',
   finalTag: L('Historia nuk pret.', 'History does not wait.'),
 }
 
@@ -764,8 +761,8 @@ export const archive = {
 export const footer = {
   backTop: L('NË FILLIM', 'TO THE TOP'),
   disclaimer: L(
-    'KATËR është një projekt i pavarur historik dhe dokumentues. Nuk përfaqëson Dhomat e Specializuara të Kosovës, Qeverinë e Kosovës, asnjë subjekt politik apo organizatë tjetër.',
-    'KATËR is an independent historical and documentary project. It does not represent the Kosovo Specialist Chambers, the Government of Kosovo, any political entity, or any other organisation.',
+    'Liria ka emër është një projekt i pavarur historik dhe dokumentues. Nuk përfaqëson Dhomat e Specializuara të Kosovës, Qeverinë e Kosovës, asnjë subjekt politik apo organizatë tjetër.',
+    'Liria ka emër is an independent historical and documentary project. It does not represent the Kosovo Specialist Chambers, the Government of Kosovo, any political entity, or any other organisation.',
   ),
   disclaimer2: L(
     'Për informacion juridik dhe vendimin zyrtar, referojuni burimeve zyrtare të Dhomave të Specializuara të Kosovës.',
