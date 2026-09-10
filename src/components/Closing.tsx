@@ -1,9 +1,18 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { CineParticles } from './cine/CineParticles'
+import { CineFrame } from './cine/CineFrame'
+import { ArchiveScene } from './ArchiveScene'
 import { PunchWords } from './cine/Punch'
-import { closing } from '../lib/content'
+import { closing, type Scene } from '../lib/content'
 import { useI18n } from '../lib/i18n'
 import { EASE } from '../lib/util'
+
+const candleScene: Scene = {
+  kind: 'candle',
+  label: { sq: 'Qiri', en: 'Candle' },
+  source: { sq: 'ARKIV', en: 'ARCHIVE' },
+  placeholder: true,
+}
 
 export function Closing() {
   const { t } = useI18n()
@@ -13,6 +22,14 @@ export function Closing() {
   return (
     <section id="mbyllje" className="relative overflow-hidden bg-black">
       <CineParticles kind="embers" density={30} maxWidth={1920} maxHeight={1920} />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.14]">
+        <CineFrame tone="night" particles="ash" density={16} className="absolute inset-0">
+          <ArchiveScene scene={candleScene} className="h-full w-full" />
+        </CineFrame>
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="absolute inset-0 vignette" />
+      </div>
+      <div className="relative z-10">
       <div className="mx-auto flex max-w-[1480px] flex-col items-start px-5 py-32 md:px-8 md:py-48">
         <motion.h2
           initial={reduce ? { opacity: 1 } : { opacity: 0, y: 40 }}
@@ -119,8 +136,9 @@ className="font-display text-[18vw] font-extrabold leading-none tracking-[0.12em
           >
             <PunchWords words={[closing.final]} className="text-glow-soft" />
           </motion.p>
-          <p className="mt-4 font-body text-base text-fog md:text-xl">{t(closing.finalTag)}</p>
+<p className="mt-4 font-body text-base text-fog md:text-xl">{t(closing.finalTag)}</p>
         </div>
+      </div>
       </div>
     </section>
   )

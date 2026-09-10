@@ -1,11 +1,20 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { ExternalLink } from 'lucide-react'
 import { CineParticles } from './cine/CineParticles'
-import { verdict } from '../lib/content'
+import { ArchiveScene } from './ArchiveScene'
+import { CineFrame } from './cine/CineFrame'
+import { verdict, type Scene } from '../lib/content'
 import { useI18n } from '../lib/i18n'
 import { isVerdictDay } from '../lib/clock'
 import { useNow } from '../lib/hooks'
 import { cn, EASE } from '../lib/util'
+
+const scalesScene: Scene = {
+  kind: 'scales',
+  label: { sq: 'Peshorja e drejtësisë', en: 'Scales of justice' },
+  source: { sq: 'ARKIV', en: 'ARCHIVE' },
+  placeholder: true,
+}
 
 export function Verdict() {
   const { t } = useI18n()
@@ -15,10 +24,17 @@ export function Verdict() {
   const E = EASE
 
   return (
-<section id="verdict" className="relative scroll-mt-24 overflow-hidden bg-black">
+    <section id="verdict" className="relative scroll-mt-24 overflow-hidden bg-black">
       <span id="live" />
       {day && <CineParticles kind="embers" density={70} maxWidth={1920} maxHeight={1920} />}
-      <div className="mx-auto max-w-[1480px] px-5 py-24 md:px-8 md:py-32">
+      <div className="pointer-events-none absolute inset-0 opacity-[0.16]">
+        <CineFrame tone="night" particles="ash" density={24} className="absolute inset-0">
+          <ArchiveScene scene={scalesScene} className="h-full w-full" />
+        </CineFrame>
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 vignette" />
+      </div>
+      <div className="relative z-10 mx-auto max-w-[1480px] px-5 py-24 md:px-8 md:py-32">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-bone/10 pb-6">
           <div className="flex items-center gap-4">
             {day && <span className="relative flex h-2.5 w-2.5">

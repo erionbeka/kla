@@ -29,6 +29,8 @@ export type SceneKind =
   | 'bonfire'
   | 'vigil'
   | 'convoi'
+  | 'scales'
+  | 'candle'
 
 export interface Scene {
   kind: SceneKind

@@ -31,7 +31,7 @@ export function Hague() {
 
   return (
     <section id="haga" className="relative scroll-mt-20 overflow-hidden bg-black">
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.10]">
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.24]">
         <CineFrame particles="embers" tone="night" density={30} className="absolute inset-0">
           <ArchiveScene
             scene={{ kind: 'court', label: hague.title, source: hague.title, placeholder: false }}

@@ -70,6 +70,22 @@ function Vignette() {
   )
 }
 
+function Outline({
+  d,
+  o = 0.5,
+  sw = 2,
+  fast = false,
+}: {
+  d: string
+  o?: number
+  sw?: number
+  fast?: boolean
+}) {
+  return (
+    <path d={d} fill="none" stroke="#e8e4da" strokeWidth={sw} opacity={o} className={fast ? 'sk-draw-fast' : 'sk-draw'} />
+  )
+}
+
 function Mountains({ variant = 1 }: { variant?: number }) {
   const peaks =
     variant === 2
@@ -83,10 +99,16 @@ function Mountains({ variant = 1 }: { variant?: number }) {
           { d: 'M480,700 L820,460 L1180,700', o: 0.3 },
           { d: 'M980,700 L1300,500 L1660,700', o: 0.26 },
         ]
+  const ridges = variant === 2
+    ? ['M0,660 L260,420 L520,640', 'M340,660 L600,470 L860,660', 'M720,660 L1010,390 L1300,660']
+    : ['M-50,700 L300,430 L660,700', 'M480,700 L820,460 L1180,700', 'M980,700 L1300,500 L1660,700']
   return (
     <g>
       {peaks.map((p, i) => (
         <path key={i} d={p.d} fill={tone.far} opacity={p.o + (variant === 2 ? i * 0.02 : 0)} />
+      ))}
+      {ridges.map((d, i) => (
+        <Outline key={`r${i}`} d={d} o={0.22 - i * 0.03} sw={1.5} />
       ))}
     </g>
   )
@@ -151,7 +173,7 @@ function Figures({
     const dx = Math.sin(i * 1.7) * 40
     arr.push(fig(x0 + i * step + dx, yBase - (i % 3) * 24, size * (1 - i * 0.035), opacity * (1 - i * 0.06)))
   }
-  return <g>{arr}</g>
+  return <g className="sk-fig">{arr}</g>
 }
 
 function Ruins() {
@@ -436,7 +458,7 @@ function BonfireScene() {
       <g fill={tone.ink} opacity="0.35">
         <path d="M760,320 C820,140 980,140 1040,320 C980,240 820,240 760,320 Z" />
       </g>
-      <g>
+      <g className="sk-flick">
         {[['#f6c177', 1], ['#e17b3a', 0.9], ['#a6101f', 0.75]].map(([c, o], i) => (
           <path
             key={i}
@@ -474,15 +496,16 @@ function VigilScene() {
             <g key={i} opacity={1 - r * 0.16}>
               <rect x={140 + i * 145} y={y} width="52" height="9" fill={tone.ink} opacity="0.95" />
               <rect x={140 + i * 145 + 22} y={y - 26} width="8" height="26" fill={tone.near} opacity="0.8" />
+              <g className="sk-flick" opacity="0.95">
               <ellipse
                 cx={140 + i * 145 + 26}
                 cy={y - 30}
                 rx="9"
                 ry="14"
                 fill={i % 3 === 0 ? '#f6c177' : '#e17b3a'}
-                opacity="0.95"
               />
-              <ellipse cx={140 + i * 145 + 26} cy={y - 33} rx="5" ry="9" fill="#ffead2" opacity="0.9" />
+              <ellipse cx={140 + i * 145 + 26} cy={y - 33} rx="5" ry="9" fill="#ffead2" />
+            </g>
             </g>
           ))}
         </g>
@@ -576,7 +599,38 @@ function scarf(scene: Scene) {
             <ellipse cx="900" cy="760" rx="450" ry="130" opacity="0.85" />
             <ellipse cx="1350" cy="710" rx="320" ry="100" opacity="0.92" />
           </g>
-          <Figures n={8} x0={180} yBase={640} step={180} size={110} opacity={0.4} />
+          <Figures n={9} x0={120} yBase={640} step={180} size={100} opacity={0.4} />
+          {/* raised fists — sketched in */}
+          <g stroke="#e8e4da" strokeWidth="5" strokeLinecap="round" fill="none" opacity="0.4" className="sk-draw-fast">
+            {[
+              { x: 210, y: 690, t: 1 },
+              { x: 520, y: 720, t: -1 },
+              { x: 800, y: 672, t: 1 },
+              { x: 1100, y: 706, t: -1 },
+            ].map((a, i) => (
+              <g key={i}>
+                <path d={`M${a.x},${a.y} L${a.x + a.t * 20},${a.y - 64}`} />
+                <circle cx={a.x + a.t * 20} cy={a.y - 60} r="11" fill="#e8e4da" stroke="none" opacity="0.5" />
+              </g>
+            ))}
+          </g>
+          {/* banner */}
+          <g stroke="#e8e4da" fill="none" opacity="0.55" className="sk-draw-fast">
+            <line x1="1180" y1="250" x2="1180" y2="440" strokeWidth="5" />
+            <path d="M1180,286 L1372,286 L1372,352 L1180,352 Z" strokeWidth="3" />
+          </g>
+          <text
+            x="1276"
+            y="330"
+            textAnchor="middle"
+            fontSize="30"
+            fontFamily="IBM Plex Mono, monospace"
+            fill="#e8e4da"
+            opacity="0.55"
+            letterSpacing="0.3em"
+          >
+            LIRI
+          </text>
           <line x1="80" y1="260" x2="1520" y2="260" stroke="#e8e4da" strokeWidth="1" opacity="0.1" />
         </>
       )
@@ -621,11 +675,23 @@ function scarf(scene: Scene) {
     case 'memorial':
       return <MemorialRows />
     case 'flag':
-      return <Flag />
+      return (
+        <>
+          <Flag />
+          <Outline
+            d="M620,240 C620,240 720,180 860,180 C1020,180 1120,240 1120,240 L1120,760 C1120,760 1020,700 860,700 C720,700 620,760 620,760 Z"
+            o={0.4}
+            sw={2.5}
+            fast
+          />
+        </>
+      )
     case 'court':
       return (
         <>
           <Courthouse />
+          <Outline d="M260,360 L800,200 L1340,360 Z" o={0.35} sw={2.5} />
+          <Outline d="M300,360 L1300,360 L1300,880 L300,880 Z" o={0.2} sw={1.5} />
           <Figures n={3} x0={560} yBase={680} step={260} size={120} opacity={0.28} variant={2} />
         </>
       )
@@ -637,7 +703,13 @@ function scarf(scene: Scene) {
         </>
       )
     case 'house':
-      return <House />
+      return (
+        <>
+          <House />
+          <Outline d="M470,460 L730,300 L990,460 Z" o={0.3} sw={2.5} fast />
+          <Outline d="M520,460 L520,880 L940,880 L940,460 Z" o={0.18} sw={1.5} />
+        </>
+      )
     case 'hands':
       return <Hands />
     case 'paper':
@@ -646,8 +718,65 @@ function scarf(scene: Scene) {
       return <MicStand />
     case 'grid':
       return <GridTable />
+    case 'scales':
+      return (
+        <>
+          <g stroke="#e8e4da" fill="none" opacity="0.65" className="sk-draw">
+            <path d="M800,500 L800,760" strokeWidth="9" />
+            <path d="M735,760 L865,760" strokeWidth="7" />
+            <line x1="800" y1="470" x2="800" y2="500" strokeWidth="5" />
+          </g>
+          <g stroke="#e8e4da" fill="none" className="sk-balance" opacity="0.85">
+            <line x1="690" y1="316" x2="910" y2="316" strokeWidth="6" />
+            <line x1="706" y1="316" x2="706" y2="420" strokeWidth="3" />
+            <line x1="894" y1="316" x2="894" y2="420" strokeWidth="3" />
+            <path d="M648,452 Q706,430 770,452" strokeWidth="6" />
+            <path d="M830,452 Q894,430 952,452" strokeWidth="6" />
+          </g>
+          <circle cx="800" cy="316" r="10" fill="#e8e4da" opacity="0.5" />
+          <g stroke="#e8e4da" strokeWidth="3" opacity="0.35" className="sk-draw-fast">
+            <line x1="690" y1="452" x2="706" y2="452" />
+            <line x1="770" y1="452" x2="800" y2="452" />
+            <line x1="800" y1="452" x2="830" y2="452" />
+            <line x1="894" y1="452" x2="952" y2="452" />
+          </g>
+          <Outline d="M0,880 C400,840 1200,840 1600,880" o={0.2} sw={1.5} fast />
+        </>
+      )
+    case 'candle':
+      return (
+        <g>
+          <Outline d="M720,520 L720,320 L880,320 L880,520 Z" o={0.28} sw={2} fast />
+          <ellipse cx="800" cy="520" rx="180" ry="16" fill={tone.ink} opacity="0.6" />
+          <g className="sk-float">
+            <ellipse cx="720" cy="480" rx="16" ry="7" fill={tone.near} opacity="0.5" />
+            <rect x="712" y="410" width="16" height="76" fill="none" stroke="#e8e4da" strokeWidth="3" opacity="0.5" />
+            <g className="sk-flick" fill="#f6c177">
+              <ellipse cx="720" cy="398" rx="7" ry="22" />
+              <ellipse cx="720" cy="400" rx="4" ry="15" fill="#ffead2" />
+            </g>
+          </g>
+          <g className="sk-float">
+            <ellipse cx="880" cy="496" rx="16" ry="7" fill={tone.near} opacity="0.5" />
+            <rect x="872" y="430" width="16" height="72" fill="none" stroke="#e8e4da" strokeWidth="3" opacity="0.45" />
+            <g className="sk-flick" fill="#e17b3a">
+              <ellipse cx="880" cy="418" rx="7" ry="22" />
+              <ellipse cx="880" cy="420" rx="4" ry="15" fill="#ffead2" />
+            </g>
+          </g>
+          <ellipse cx="800" cy="520" rx="240" ry="30" fill="none" stroke="#e8e4da" strokeWidth="1.5" opacity="0.14" className="sk-draw" />
+        </g>
+      )
     default:
-      return null
+      return (
+        <>
+          <Outline d="M0,760 C400,710 500,740 900,720 C1200,705 1400,730 1600,720" o={0.3} sw={1.5} fast />
+          <g className="sk-flick" fill="#e8e4da" opacity="0.4">
+            <circle cx="800" cy="420" r="8" />
+          </g>
+          <line x1="0" y1="880" x2="1600" y2="880" stroke="#e8e4da" strokeWidth="1" opacity="0.1" />
+        </>
+      )
   }
 }
 
