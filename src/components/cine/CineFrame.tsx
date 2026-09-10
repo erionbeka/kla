@@ -29,7 +29,7 @@ export function CineFrame({
       className={cn('group relative overflow-hidden bg-ink', tone === 'night' && '', className)}
       style={{
         boxShadow:
-          'inset 0 0 0 1px rgba(232,228,218,0.06), inset 0 0 90px rgba(0,0,0,0.85), inset 0 0 22px rgba(0,0,0,0.7)',
+          'inset 0 0 0 1px rgba(232,228,218,0.06), inset 0 0 90px rgba(0,0,0,0.78), inset 0 0 22px rgba(0,0,0,0.55)',
       }}
     >
       <motion.div
@@ -50,7 +50,7 @@ export function CineFrame({
       </motion.div>
 
       {tone === 'night' && (
-        <div className="pointer-events-none absolute inset-0 mix-blend-multiply" style={{ background: 'rgba(3,4,8,0.62)' }} />
+        <div className="pointer-events-none absolute inset-0 mix-blend-multiply" style={{ background: 'rgba(14,16,26,0.34)' }} />
       )}
       <div
         className="pointer-events-none absolute inset-0"

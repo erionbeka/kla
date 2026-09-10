@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react'
+import { MotionConfig } from 'motion/react'
 import { useApp, AppProvider } from './lib/app'
 import { I18nProvider } from './lib/i18n'
 import { FilmProvider } from './lib/film'
@@ -77,14 +78,16 @@ function Shell() {
 
 export default function App() {
   return (
-    <I18nProvider>
-      <AppProvider>
-        <FilmProvider>
-          <Shell />
-          <SnakeRail />
-          <FilmOverlay />
-        </FilmProvider>
-      </AppProvider>
-    </I18nProvider>
+    <MotionConfig reducedMotion="never">
+      <I18nProvider>
+        <AppProvider>
+          <FilmProvider>
+            <Shell />
+            <SnakeRail />
+            <FilmOverlay />
+          </FilmProvider>
+        </AppProvider>
+      </I18nProvider>
+    </MotionConfig>
   )
 }

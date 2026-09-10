@@ -15,12 +15,12 @@ interface Tone {
 }
 
 const tone: Tone = {
-  bg0: '#101010',
-  bg1: '#030303',
-  glow: 'rgba(232,228,218,0.14)',
-  far: '#33312c',
-  mid: '#56524a',
-  near: '#8a8578',
+  bg0: '#1c1916',
+  bg1: '#0c0a08',
+  glow: 'rgba(236,228,214,0.24)',
+  far: '#4f4839',
+  mid: '#837761',
+  near: '#b9ae95',
   ink: '#0a0a09',
 }
 
@@ -65,15 +65,15 @@ function Vignette() {
   return (
     <radialGradient id="vig" cx="50%" cy="50%" r="75%">
       <stop offset="62%" stopColor="rgba(0,0,0,0)" />
-      <stop offset="100%" stopColor="rgba(0,0,0,0.72)" />
+      <stop offset="100%" stopColor="rgba(0,0,0,0.46)" />
     </radialGradient>
   )
 }
 
 function Outline({
   d,
-  o = 0.5,
-  sw = 2,
+  o = 0.6,
+  sw = 2.2,
   fast = false,
 }: {
   d: string
@@ -794,7 +794,7 @@ export function ArchiveScene({ scene, className = '' }: { scene: Scene; classNam
       <Scratches />
       <rect width={W} height={H} fill="url(#vig)" />
       <g filter="url(#grain)">
-        <rect width={W} height={H} fill="rgba(232,228,218,0.03)" />
+        <rect width={W} height={H} fill="rgba(232,228,218,0.045)" />
       </g>
     </svg>
   )

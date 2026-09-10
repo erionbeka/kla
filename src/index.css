@@ -227,18 +227,6 @@ body {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sk-draw,
-  .sk-draw-fast,
-  .sk-fig,
-  .sk-flick,
-  .sk-balance,
-  .sk-float {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-}
-
 .kb-a {
   animation: kbA 18s ease-in-out infinite alternate;
   will-change: transform;
@@ -261,14 +249,5 @@ body {
   }
   100% {
     transform: scale(1) translate(1.1%, -0.6%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
