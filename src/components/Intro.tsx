@@ -75,7 +75,6 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
   )
 
   const year = yearSteps.includes(step) ? step : null
-  const showArt = step === 'title' || leaving
 
   const leave = () => {
     if (leaving) return
@@ -89,17 +88,17 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
       animate={{ opacity: leaving ? 0.98 : 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* faint archival art, appears before the title */}
+      {/* faint archival art, visible through the whole sequence */}
       <AnimatePresence>
-        {showArt && (
+        {!leaving && (
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: step === 'title' || leaving ? 0.55 : 0.12 }}
-            transition={{ duration: 2.4, ease: 'easeOut' }}
+            animate={{ opacity: step === 'title' ? 0.5 : 0.34 }}
+            transition={{ duration: 2.2, ease: 'easeOut' }}
             className="absolute inset-0"
           >
             <ArchiveScene scene={scene} className="h-full w-full object-cover grayscale" />
-            <div className="absolute inset-0 bg-ink/40" />
+            <div className="absolute inset-0 bg-ink/35" />
             <div className="absolute inset-0 vignette" />
           </motion.div>
         )}

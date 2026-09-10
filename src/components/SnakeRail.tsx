@@ -6,8 +6,9 @@ const CENTER_X = RAIL_W / 2
 const AMP = 150
 const PAD_X = 16
 const BODY_N = 16
-const GAP = 9
-const HEAD_R = 7
+const GAP = 11
+const HEAD_R = 13
+const START_OFF = 0.06
 
 const SECTIONS: { id: string; num: string }[] = [
   { id: 'hero', num: '00' },
@@ -71,7 +72,7 @@ export function SnakeRail() {
       if (!pathEl || pts.length < 2 || pathEl.getTotalLength() === 0) return
       const v = Math.min(1, Math.max(0, raw))
       const L = pathEl.getTotalLength()
-      const headAt = Math.min(L, Math.max(0, v * L))
+      const headAt = Math.min(L, Math.max(0, START_OFF * L + v * (1 - START_OFF) * L))
 
       const point = (t: number) => {
         const tt = Math.max(0, Math.min(L, t))
@@ -86,17 +87,13 @@ export function SnakeRail() {
         const c = dotsRef.current[k]
         if (!c) continue
         const t = headAt - (k + 1) * GAP
-        if (t < 0) {
-          c.setAttribute('opacity', '0')
-          continue
-        }
         const { x, y, ang } = point(t)
         const ripple = Math.sin(k * 0.62) * 8
         const px = x + -Math.sin(ang) * ripple
         const py = y + Math.cos(ang) * ripple
         c.setAttribute('cx', px.toFixed(1))
         c.setAttribute('cy', py.toFixed(1))
-        c.setAttribute('opacity', (Math.max(0, 1 - k * 0.07)).toFixed(2))
+        c.setAttribute('opacity', t < 0 ? (0.35 - k * 0.02).toFixed(2) : (Math.max(0, 1 - k * 0.07)).toFixed(2))
       }
 
       // head — small arrow aimed along the path
@@ -168,7 +165,6 @@ export function SnakeRail() {
   return (
     <div
       className="pointer-events-none fixed inset-x-0 top-0 z-[50] hidden h-full justify-center lg:flex"
-      style={{ maskImage: 'linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)' }}
       aria-hidden
     >
       <div className="relative h-full w-[420px]">
@@ -184,14 +180,15 @@ export function SnakeRail() {
                 ref={(el) => {
                   dotsRef.current[k] = el
                 }}
-                r={k === 0 ? 6 : Math.max(3.4, 6.4 - k * 0.18)}
-                fill={k < 3 ? '#c8182b' : '#a6101f'}
+                r={k === 0 ? 7.5 : Math.max(4, 7.5 - k * 0.2)}
+                fill={k < 3 ? '#e0283d' : '#b31222'}
                 style={{ opacity: 1 }}
               />
             ))}
             <g ref={headRef}>
-              <circle r={HEAD_R} fill="#e8e4da" />
-              {!reduce && <circle r={3} fill="#a6101f" />}
+              <circle r={HEAD_R} fill="#f2eee6" />
+              <circle r={HEAD_R} fill="none" stroke="#e0283d" strokeWidth={1.5} />
+              {!reduce && <circle r={3.2} fill="#a6101f" />}
             </g>
           </g>
 

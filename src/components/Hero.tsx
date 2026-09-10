@@ -60,7 +60,7 @@ function HeroBackdrop({ frames }: { frames: MediaItem[] }) {
             animate={{ scale: 1 }}
             transition={{ duration: 12, ease: 'linear' }}
             className="h-full w-full object-cover"
-            style={{ filter: 'brightness(0.5) saturate(0.9) contrast(1.05)' }}
+            style={{ filter: 'brightness(0.72) saturate(0.95) contrast(1.04)' }}
           />
         )}
       </motion.div>
@@ -99,7 +99,7 @@ export function Hero() {
         <CineFrame letterbox particles="embers" tone="night" className="absolute inset-0">
           {reduce ? (
             frames[0] ? (
-              <img src={frames[0].url} alt="" className="h-full w-full object-cover" style={{ filter: 'brightness(0.55)' }} />
+              <img src={frames[0].url} alt="" className="h-full w-full object-cover" style={{ filter: 'brightness(0.72)' }} />
             ) : (
               <ArchiveScene scene={hero.scene()} className="h-full w-full scale-105" />
             )
@@ -111,9 +111,9 @@ export function Hero() {
 
       {/* ember ground glow */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[40%]"
         style={{
-          background: 'linear-gradient(0deg, rgba(166,16,31,0.22) 0%, rgba(166,16,31,0.05) 40%, rgba(0,0,0,0) 100%)',
+          background: 'linear-gradient(0deg, rgba(166,16,31,0.16) 0%, rgba(166,16,31,0.04) 40%, rgba(0,0,0,0) 100%)',
         }}
       />
 

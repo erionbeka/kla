@@ -1,10 +1,56 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { ArchiveScene } from './ArchiveScene'
 import { CineFrame } from './cine/CineFrame'
 import { memorial } from '../lib/content'
-import { getMemorialFrames } from '../lib/media'
+import { getMemorialFrames, type MediaItem } from '../lib/media'
 import { useI18n } from '../lib/i18n'
 import { cn, EASE } from '../lib/util'
+
+function PhotoBackdrop({ frames }: { frames: MediaItem[] }) {
+  const [idx, setIdx] = useState(0)
+
+  useEffect(() => {
+    if (frames.length < 2) return
+    const id = window.setInterval(() => setIdx((i) => (i + 1) % frames.length), 7500)
+    return () => window.clearInterval(id)
+  }, [frames.length])
+
+  if (frames.length === 0) return null
+  const frame = frames[idx % frames.length]
+
+  return (
+    <AnimatePresence mode="popLayout" initial={false}>
+      <motion.div
+        key={idx}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 2.4, ease: 'easeInOut' }}
+        className="absolute inset-0"
+      >
+        {frame.isVideo ? (
+          <video src={frame.url} muted loop autoPlay playsInline className="h-full w-full object-cover" />
+        ) : (
+          <motion.img
+            src={frame.url}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            initial={{ scale: 1.1 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 18, ease: 'linear' }}
+            className="h-full w-full object-cover"
+            style={{ filter: 'brightness(0.85) saturate(0.95)' }}
+          />
+        )}
+      </motion.div>
+      <div className="absolute bottom-4 left-4 z-10 hidden font-mono text-[9px] uppercase tracking-[0.18em] text-bone/70 md:block">
+        {frame.credit ?? ''}
+      </div>
+    </AnimatePresence>
+  )
+}
 
 function QuoteBlock({ text, delay = 0 }: { text: string; delay?: number }) {
   const reduce = useReducedMotion()
@@ -42,14 +88,13 @@ export function Memorial() {
 
   return (
     <section id="kujtesa" className="relative scroll-mt-20 overflow-hidden bg-ink">
-      {/* faint archival backdrop */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.12]">
-        <CineFrame letterbox particles="ash" className="absolute inset-0">
-          <ArchiveScene
-            scene={{ kind: 'ruins', label: memorial.title, source: memorial.title, placeholder: true }}
-            className="h-full w-full"
-          />
+      {/* real photographic backdrop — the emotional weight */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.46]">
+        <CineFrame tone="day" particles="ash" className="absolute inset-0">
+          <PhotoBackdrop frames={memorialFrames} />
         </CineFrame>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80" />
+        <div className="absolute inset-0 vignette" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1480px] px-5 md:px-8">

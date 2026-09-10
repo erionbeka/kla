@@ -22,17 +22,17 @@ function FaintBackdrop() {
         <motion.div
           key={idx}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.12 }}
+          animate={{ opacity: 0.3 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 3, ease: 'easeInOut' }}
           className="absolute inset-0"
         >
-          <CineFrame tone="night" particles="embers" density={36} className="absolute inset-0">
-            <ArchiveScene scene={waiting.faintScenes[idx]} className="h-full w-full scale-105 blur-[1px]" />
+          <CineFrame tone="night" particles="embers" density={30} className="absolute inset-0">
+            <ArchiveScene scene={waiting.faintScenes[idx]} className="h-full w-full scale-105" />
           </CineFrame>
         </motion.div>
       </AnimatePresence>
-      <div className="absolute inset-0 bg-black/55" />
+      <div className="absolute inset-0 bg-black/45" />
       <div className="absolute inset-0 vignette" />
     </div>
   )

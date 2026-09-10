@@ -22,11 +22,11 @@ export function Closing() {
   return (
     <section id="mbyllje" className="relative overflow-hidden bg-black">
       <CineParticles kind="embers" density={30} maxWidth={1920} maxHeight={1920} />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.14]">
+      <div className="pointer-events-none absolute inset-0 opacity-[0.3]">
         <CineFrame tone="night" particles="ash" density={16} className="absolute inset-0">
           <ArchiveScene scene={candleScene} className="h-full w-full" />
         </CineFrame>
-        <div className="absolute inset-0 bg-black/35" />
+        <div className="absolute inset-0 bg-black/25" />
         <div className="absolute inset-0 vignette" />
       </div>
       <div className="relative z-10">

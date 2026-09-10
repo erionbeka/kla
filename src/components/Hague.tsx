@@ -8,9 +8,9 @@ import { EASE } from '../lib/util'
 import { cn } from '../lib/util'
 
 const kindStyles: Record<'fact' | 'concern' | 'procedure', string> = {
-  fact: 'border-bone/30 text-bone/80 bg-bone/5',
-  concern: 'border-ember/60 text-ember bg-ember/10',
-  procedure: 'border-fog/40 text-fog bg-transparent',
+  fact: 'border-[#6f8caa]/30 text-[#c7d6e4]/80 bg-[#6f8caa]/5',
+  concern: 'border-[#8fb8dd]/60 text-[#bcd6ec] bg-[#8fb8dd]/10',
+  procedure: 'border-[#6f8caa]/40 text-[#98b0c6] bg-transparent',
 }
 
 type ConcernKind = 'fact' | 'concern' | 'procedure'
@@ -31,13 +31,15 @@ export function Hague() {
 
   return (
     <section id="haga" className="relative scroll-mt-20 overflow-hidden bg-black">
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.24]">
-        <CineFrame particles="embers" tone="night" density={30} className="absolute inset-0">
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.44]">
+        <CineFrame particles="ash" tone="day" density={20} className="absolute inset-0">
           <ArchiveScene
             scene={{ kind: 'court', label: hague.title, source: hague.title, placeholder: false }}
             className="h-full w-full"
           />
         </CineFrame>
+        <div className="absolute inset-0 bg-[#0b1118]/40" />
+        <div className="absolute inset-0 vignette" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1480px] px-5 py-24 md:px-8 md:py-32">
@@ -90,17 +92,17 @@ export function Hague() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.9, delay: i * 0.04, ease: E }}
-              className={cn(
-                'relative flex flex-col justify-between bg-ink p-6 md:p-9',
-                it.current && 'border-em border-white/0',
-              )}
+className={cn(
+  'relative flex flex-col justify-between p-6 md:p-9',
+  it.current ? 'border border-[#8fb8dd]/40 bg-[#0d1520]' : 'bg-[#0a1119]',
+)}
             >
               <div>
                 <div className="flex items-center justify-between gap-4">
                   <span
                     className={cn(
                       'font-display text-3xl font-extrabold tracking-tight md:text-4xl',
-                      it.current ? 'text-ember' : 'text-bone',
+                      it.current ? 'text-[#cfe2f2]' : 'text-bone',
                     )}
                   >
                     {it.year}
@@ -139,7 +141,7 @@ export function Hague() {
             href="https://www.scp-ks.org"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 transition-colors hover:text-ember"
+            className="inline-flex items-center gap-2 transition-colors hover:text-[#bcd6ec]"
           >
             KSC · spk-ks.org
             <ExternalLink className="h-3 w-3" strokeWidth={1.5} />

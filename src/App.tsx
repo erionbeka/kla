@@ -21,7 +21,17 @@ const Arkiiv = lazy(() => import('./components/Archive').then((m) => ({ default:
 const Closing = lazy(() => import('./components/Closing').then((m) => ({ default: m.Closing })))
 
 function Lazy({ children }: { children: React.ReactNode }) {
-  return <Suspense fallback={<div className="min-h-[60vh]" />}>{children}</Suspense>
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[60vh] items-center justify-center bg-coal/60">
+          <span className="h-px w-24 bg-bone/20" />
+        </div>
+      }
+    >
+      {children}
+    </Suspense>
+  )
 }
 
 function Shell() {

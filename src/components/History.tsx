@@ -4,11 +4,17 @@ import { CineFrame } from './cine/CineFrame'
 import { history } from '../lib/content'
 import { useI18n } from '../lib/i18n'
 import { cn, EASE } from '../lib/util'
+import prekazImg from '../assets/archive/prekaz/1998-prekaz.jpg?url'
+
+const PHOTO_OVERRIDES: Record<string, string> = {
+  '5 MARS 1998': prekazImg,
+}
 
 function VarFull({ step, index }: { step: (typeof history.chapters)[number]; index: number }) {
   const { t } = useI18n()
   const reduce = useReducedMotion()
   const E = EASE
+  const photo = PHOTO_OVERRIDES[step.year]
   return (
     <section className="relative min-h-[92vh] overflow-hidden">
       <motion.div
@@ -24,7 +30,18 @@ function VarFull({ step, index }: { step: (typeof history.chapters)[number]; ind
           tone={index % 2 === 0 ? 'night' : 'day'}
           className="absolute inset-0"
         >
-          <ArchiveScene scene={step.scene} className="h-full w-full" />
+          {photo ? (
+            <motion.img
+              src={photo}
+              alt={t(step.title)}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover"
+              style={{ filter: 'brightness(0.68) saturate(0.95) contrast(1.05)' }}
+            />
+          ) : (
+            <ArchiveScene scene={step.scene} className="h-full w-full" />
+          )}
         </CineFrame>
         <div className="absolute inset-0 vignette" />
       </motion.div>
@@ -69,6 +86,7 @@ function VarSplit({ step, index: _index }: { step: (typeof history.chapters)[num
   const { t } = useI18n()
   const reduce = useReducedMotion()
   const E = EASE
+  const photo = PHOTO_OVERRIDES[step.year]
   return (
     <section className="relative overflow-hidden bg-ink">
       <div className="mx-auto grid max-w-[1480px] gap-0 lg:grid-cols-2">
@@ -92,7 +110,18 @@ function VarSplit({ step, index: _index }: { step: (typeof history.chapters)[num
         <div className="relative min-h-[60vh] lg:min-h-screen">
           <div className="sticky top-0 h-[60vh] overflow-hidden lg:h-screen">
             <CineFrame particles="embers" tone="night" className="absolute inset-0">
-              <ArchiveScene scene={step.scene} className="h-full w-full" />
+              {photo ? (
+                <img
+                  src={photo}
+                  alt={t(step.title)}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover"
+                  style={{ filter: 'brightness(0.7) saturate(0.95)' }}
+                />
+              ) : (
+                <ArchiveScene scene={step.scene} className="h-full w-full" />
+              )}
             </CineFrame>
             <div className="absolute inset-0 vignette" />
           </div>
@@ -106,6 +135,7 @@ function VarQuiet({ step, index: _index }: { step: (typeof history.chapters)[num
   const { t } = useI18n()
   const reduce = useReducedMotion()
   const E = EASE
+  const photo = PHOTO_OVERRIDES[step.year]
   return (
     <section className="relative overflow-hidden">
       <div className="mx-auto max-w-[1480px] px-5 py-24 md:px-8 md:py-36">
@@ -147,7 +177,18 @@ function VarQuiet({ step, index: _index }: { step: (typeof history.chapters)[num
           className="relative aspect-[16/10] overflow-hidden md:aspect-[21/9]"
         >
           <CineFrame letterbox particles="ash" className="absolute inset-0">
-            <ArchiveScene scene={step.scene} className="h-full w-full" />
+            {photo ? (
+              <img
+                src={photo}
+                alt={t(step.title)}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover"
+                style={{ filter: 'brightness(0.72) saturate(0.95)' }}
+              />
+            ) : (
+              <ArchiveScene scene={step.scene} className="h-full w-full" />
+            )}
           </CineFrame>
           <div className="absolute inset-0 vignette" />
         </motion.div>

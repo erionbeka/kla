@@ -27,11 +27,11 @@ export function Verdict() {
     <section id="verdict" className="relative scroll-mt-24 overflow-hidden bg-black">
       <span id="live" />
       {day && <CineParticles kind="embers" density={70} maxWidth={1920} maxHeight={1920} />}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.16]">
+<div className="pointer-events-none absolute inset-0 opacity-[0.3]">
         <CineFrame tone="night" particles="ash" density={24} className="absolute inset-0">
           <ArchiveScene scene={scalesScene} className="h-full w-full" />
         </CineFrame>
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/25" />
         <div className="absolute inset-0 vignette" />
       </div>
       <div className="relative z-10 mx-auto max-w-[1480px] px-5 py-24 md:px-8 md:py-32">
@@ -51,6 +51,29 @@ export function Verdict() {
             <span>{t(verdict.time)}</span>
           </div>
         </div>
+
+        {!day && (
+          <div className="mt-10 flex flex-col items-center border-t border-bone/10 py-14 md:py-20">
+            <p className="font-mono text-[10px] uppercase tracking-[0.45em] text-fog">
+              {t(verdict.phase1)}
+            </p>
+            <motion.p
+              initial={reduce ? { opacity: 1 } : { opacity: 0, letterSpacing: '0.3em' }}
+              whileInView={{ opacity: 1, letterSpacing: '0.12em' }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 1.8, ease: E }}
+              className="mt-6 font-display text-[32vw] font-extrabold leading-[0.8] tracking-[0.04em] text-bone text-glow-soft md:text-[22rem]"
+            >
+              16
+            </motion.p>
+            <p className="mt-6 font-display text-2xl font-bold tracking-tight text-ember md:text-5xl">
+              SHTATOR 2026
+            </p>
+            <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.35em] text-fog">
+              {t(verdict.time)} · KSC-BC-2020-06 · HAGË
+            </p>
+          </div>
+        )}
 
         <div className="mt-14 flex flex-col gap-10 md:flex-row md:gap-20">
           <div className="flex-1">
