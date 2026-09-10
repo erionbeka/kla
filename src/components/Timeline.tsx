@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'motion/react'
-import { ArchiveScene, PhotoMeta } from './ArchiveScene'
+import { ArchiveScene } from './ArchiveScene'
 import { CineFrame } from './cine/CineFrame'
 import { timeline } from '../lib/content'
 import { useI18n } from '../lib/i18n'
@@ -49,9 +49,6 @@ function Card({ m, x, first = false }: { m: (typeof timeline.milestones)[number]
             <ArchiveScene scene={m.scene} className="h-full w-full" />
           </CineFrame>
           <div className="absolute inset-0 vignette" />
-          <div className="absolute bottom-3 left-3 right-3">
-            <PhotoMeta scene={m.scene} />
-          </div>
         </div>
       </div>
 

@@ -61,11 +61,11 @@ export const intro = {
 
 export const nav = {
   items: [
+    { id: 'live', label: L('LIVE', 'LIVE') },
     { id: 'historia', label: L('HISTORIA', 'HISTORY') },
-    { id: 'rrugetimi', label: L('RRUGËTIMI', 'THE JOURNEY') },
+    { id: 'rrugetimi', label: L('PROCESI', 'THE PROCESS') },
     { id: 'kater', label: L('KATËR', 'FOUR') },
     { id: 'kujtesa', label: L('KUJTESA', 'MEMORY') },
-    { id: 'haga', label: L('HAGË', 'THE HAGUE') },
   ] as { id: string; label: Lang }[],
   date: '16.09.26',
   live: L('LIVE', 'LIVE'),
@@ -120,7 +120,6 @@ export const hero = {
     source: L('PLACEHOLDER · fotografi arkivore me licencë në pritje', 'PLACEHOLDER · licensed archival photograph pending'),
     placeholder: true,
   }),
-  scroll: L('SHKO POSHTË', 'SCROLL'),
 }
 
 /* ------------------------------------------------------------------ */
@@ -137,62 +136,162 @@ export const history = {
   lead: '',
   chapters: [
     {
-      year: '1998',
-      tag: L('LUFTA FILLON', 'THE WAR BEGINS'),
-      title: L('Represioni u ashpërsua. Fshatrat u boshatisën.', 'Repression hardened. Villages emptied.'),
+      year: '1981',
+      tag: L('MARSI', 'MARCH'),
+      title: L('Studentët dolën në rrugë.', 'The students took to the streets.'),
       text: L(
-        'Armedat e para të vitit 1998 sollën dhunë në çdo fshat të Drenicës. Njerëzit u fshehën në pyje, ose morën rrugët e mërgimit.',
-        'The first clashes of 1998 brought violence to every village of Drenica. People hid in the forests, or took the roads of exile.',
+        'Demonstratat e marsit 1981 mbushën rrugët e Prishtinës dhe më gjerë. Kërkesa nuk ishte më e heshtur: republikë e barabartë brenda federatës.',
+        'The demonstrations of March 1981 filled the streets of Pristina and beyond. The demand was no longer whispered: an equal republic within the federation.',
+      ),
+      scene: { kind: 'crowd', label: L('Prishtina, mars 1981', 'Pristina, March 1981'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: '1989–90',
+      tag: L('HEQJA E AUTONOMISË', 'THE REVOCATION'),
+      title: L('Autonomia u hoq me nënshkrim të detyruar.', 'Autonomy was revoked under pressure.'),
+      text: L(
+        'Më 1989 Kosova humbi autonominë brenda Jugosllavisë, në një seancë që shumë e quajtën të detyruar. Represioni u rikthye mbi institucionet, e pastaj mbi jetët.',
+        'In 1989 Kosovo lost its autonomy within Yugoslavia, in a session many called coerced. Repression returned over institutions, then over lives.',
+      ),
+      scene: { kind: 'city', label: L('Prishtina, 1989', 'Pristina, 1989'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: '1990',
+      tag: L('KUSHTETUTA E KAÇANIKUT', 'THE KAÇANIK CONSTITUTION'),
+      title: L('Kosova u shpall republikë — pa pushkë.', 'Kosovo declared itself a republic — without rifles.'),
+      text: L(
+        'Në korrik 1990 deputetët e Kuvendit të Kosovës shpallën pavarësinë në fshehtësi, pastaj hartuan një kushtetutë në Kaçanik. Një shtet që nisi me shkolla e me libra.',
+        'In July 1990 Kosovo’s deputies declared independence in secret, then drafted a constitution at Kaçanik. A state that began with schools and with books.',
+      ),
+      scene: { kind: 'paper', label: L('Kaçanik, 1990', 'Kaçanik, 1990'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: '1991',
+      tag: L('REFERENDUMI', 'THE REFERENDUM'),
+      title: L('Populli u pyet, derë më derë.', 'The people were asked, door to door.'),
+      text: L(
+        'Në shtator 1991, brenda sistemit paralel, u bë referendumi për sovranitet. Shteti i padukshëm po merrte një mend: të tijët.',
+        'In September 1991, inside the parallel system, a referendum on sovereignty was held. The invisible state was finding its voice: its own people.',
+      ),
+      scene: { kind: 'house', label: L('Fshati kosovar, 1991', 'A Kosovo village, 1991'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: '1992–95',
+      tag: L('SHKOLLAT PARALELE', 'THE PARALLEL SCHOOLS'),
+      title: L('Mësimi u mbajt në bodrume.', 'Lessons were held in basements.'),
+      text: L(
+        'Kur arsimi shqip u ndalua, mësuesit e profesorët e zhvendosën atë në shtëpi e konvikte. Mijëra vetë punuan pa rrogë, sepse kjo ishte e vetmja rrugë drejt ditës tjetër.',
+        'When Albanian-language education was shut down, teachers and professors moved it into homes and hostels. Thousands worked unpaid, because it was the only road to the next day.',
+      ),
+      scene: { kind: 'grid', label: L('Shtëpitë e mësimit', 'The houses of learning'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: '1995',
+      tag: L('DEJTONI', 'DAYTON'),
+      title: L('Marrëveshja nuk e përmendi Kosovën.', 'The agreement never mentioned Kosovo.'),
+      text: L(
+        'Dejtoni i vitit 1995 e mbylli luftën në Bosnjë, por Kosova mbeti jashtë tryezës. Pyetja që përndiqte çdo shtëpi: sa më shumë mund të presë një popull?',
+        'Dayton in 1995 ended the war in Bosnia, but Kosovo was left off the table. The question haunting every household: how much longer can a people wait?',
+      ),
+      scene: { kind: 'city', label: L('Buzë tryezës', 'At the edge of the table'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: '1996–97',
+      tag: L('SHFAQJA E PARË', 'FIRST APPEARANCE'),
+      title: L('UÇK-ja doli para botës.', 'The KLA stepped into the open.'),
+      text: L(
+        'Në vjeshtën e 1997, në një homazh në Llap, u shfaqën burra me uniforma dhe me armë. Fillimisht pati tallje e dyshim; së shpejti nuk qeshnin më.',
+        'In autumn 1997, at a remembrance in the Llap region, armed men in uniform appeared in public. At first there was mockery and doubt; soon, no one laughed.',
+      ),
+      scene: { kind: 'flag', label: L('Llap, 1997', 'The Llap region, 1997'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: 'FEBRUAR 1998',
+      tag: L('DRENICA', 'DRENICA'),
+      title: L('Fshatrat e Drenicës u rrethuan.', 'The villages of Drenica were besieged.'),
+      text: L(
+        'Operacionet e para të mëdha u përqendruan mbi Drenicën. Fshatra të tëra u boshatisën brenda javëve; familjet u fshehën në pyje e në bodrume.',
+        'The first major operations concentrated on Drenica. Whole villages emptied within weeks; families hid in forests and cellars.',
       ),
       scene: { kind: 'hills', label: L('Viset e Drenicës, 1998', 'The Drenica highlands, 1998'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
     },
     {
-      year: '1999',
-      tag: L('MËRGIMI', 'DISPLACEMENT'),
-      title: L('Qindra mijëra civilë u larguan nga shtëpitë.', 'Hundreds of thousands of civilians fled their homes.'),
+      year: '5 MARS 1998',
+      tag: L('PREKAZI', 'PREKAZ'),
+      title: L('Familja Jashari u vra atë natë.', 'The Jashari family was killed that night.'),
       text: L(
-        'Dëbimet e vitit 1999 shtynë popullatën drejt kufijve. Trenat, kamionët, këmbët — një riv djersë dhe pluhur në rrugët e Shqipërisë e Maqedonisë.',
-        'The expulsions of 1999 pushed the population toward the borders. Trains, trucks, feet — a river of dust and sweat on the roads into Albania and Macedonia.',
+        'Në Prekaz, Adem Jashari — një nga zërat e parë të rezistencës — u vra së bashku me dhjetëra të familjes, gra e fëmijë mes tyre. Dita u bë shenjë e luftës.',
+        'At Prekaz, Adem Jashari — one of the first voices of resistance — was killed with dozens of his family, women and children among them. That day became a sign of the war.',
       ),
-      scene: { kind: 'refugee', label: L('Refugjatë drejt kufirit, 1999', 'Refugees heading for the border, 1999'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+      scene: { kind: 'house', label: L('Prekaz, mars 1998', 'Prekaz, March 1998'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
     },
     {
-      year: '1999',
-      tag: L('NDËRHYRJA', 'INTERVENTION'),
-      title: L('Bota nuk mundi të mbyllte më sytë.', 'The world could no longer look away.'),
+      year: '1998',
+      tag: L('LUFTË', 'WAR'),
+      title: L('Lufta u përhap si zjarr.', 'The war spread like fire.'),
       text: L(
-        'Pranvera e vitit 1999. Fushata ajrore e NATO-s, dhe më 9 qershor, marrëveshja ushtarako-teknike. Më 12 qershor, trupat hynë në Kosovë.',
-        'Spring 1999. The NATO air campaign, and on 9 June the military–technical agreement. On 12 June, troops entered Kosovo.',
+        'Nga pranvera e 1998 frontet u ngritën në tërë Kosovën — në Rahovec e Llapushnik, në kodra e në buzë të rrugëve. Vendbanime të tëra u goditën nga artileria.',
+        'From spring 1998 front lines rose across Kosovo — at Rahovec and Llapushnik, in the hills and beside the roads. Entire settlements were hit by artillery.',
+      ),
+      scene: { kind: 'ruins', label: L('Kosovë, verë 1998', 'Kosovo, summer 1998'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: '15 JANAR 1999',
+      tag: L('REÇAKU', 'RACAK'),
+      title: L('Reçaku nuk do të heshtë më.', 'Recak will not be silent again.'),
+      text: L(
+        'Në fshatin Reçak u gjetën 45 civilë të vrarë, sipas raportimeve të vëzhguesve ndërkombëtarë. Pamjet e asaj dite e riformuan politikën e jashtme ndaj Kosovës.',
+        'In the village of Recak, 45 civilians were found killed, according to international observers’ reports. The images of that day reshaped foreign policy toward Kosovo.',
+      ),
+      scene: { kind: 'memorial', label: L('Reçak, janar 1999', 'Recak, January 1999'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: 'MARS–QERSHOR 1999',
+      tag: L('MËRGIMI', 'THE EXODUS'),
+      title: L('Qindra mijëra u dëbuan.', 'Hundreds of thousands were expelled.'),
+      text: L(
+        'Civilët u dëbuan me tren, me kamionë e në këmbë. Rreth 850 mijë njerëz kaluan kufijtë — sipas vlerësimeve ndërkombëtare të asaj kohe — duke lënë pas shtëpitë e zjarrta.',
+        'Civilians were expelled by train, by truck and on foot. Around 850,000 people crossed the borders — by contemporary international estimates — leaving burning homes behind.',
+      ),
+      scene: { kind: 'refugee', label: L('Rruga e mërgimit, 1999', 'The road of exile, 1999'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: 'MAJ 1999',
+      tag: L('INTELEKTUALËT', 'THE INTELLECTUALS'),
+      title: L('Edhe mendjet u shënjestruan.', 'Even minds were targeted.'),
+      text: L(
+        'Profesori Fehmi Agani, një nga zërat akademikë të paqes, u vra gjatë dëbimit të dhunshëm të tij e të shumë intelektualëve të tjerë. Kosova humbi jo vetëm shtëpi, por edhe biblioteka.',
+        'Professor Fehmi Agani, one of the academic voices of peace, was killed during the violent expulsion of himself and many other intellectuals. Kosovo lost not only homes, but whole libraries.',
+      ),
+      scene: { kind: 'paper', label: L('Prishtinë, maj 1999', 'Pristina, May 1999'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+    },
+    {
+      year: '24 MARS – 10 QERSHOR',
+      tag: L('FUSHATA AJRORE', 'THE AIR CAMPAIGN'),
+      title: L('Bota ndërhyri përfundimisht.', 'The world finally intervened.'),
+      text: L(
+        'Më 24 mars 1999 filloi fushata ajrore e NATO-s. Më 9 qershor u nënshkrua marrëveshja ushtarako-teknike; më 12 qershor forcat ndërkombëtare hynë në Kosovë.',
+        'On 24 March 1999 the NATO air campaign began. On 9 June the military–technical agreement was signed; on 12 June international forces entered Kosovo.',
       ),
       scene: { kind: 'city', label: L('Prishtina, qershor 1999', 'Pristina, June 1999'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
     },
     {
-      year: '1999',
-      tag: L('KTHIMI', 'THE RETURN'),
-      title: L('Ata u kthyen në atë që kishin lënë pas.', 'They returned to what they had left behind.'),
+      year: '1999–2000',
+      tag: L('PLAGËT', 'THE WOUNDS'),
+      title: L('Liria erdhi. Dëshmia nuk mbaroi.', 'Freedom came. Grief did not end.'),
       text: L(
-        'Shtëpitë e djegura, varret e reja, dyqanet e mbyllura. Megjithatë, muajt e parë të lirisë i kaloi një popull që rindërtonte nga gërmadhat.',
-        'Burned homes, fresh graves, shuttered shops. And still — the first months of freedom were spent by a people rebuilding from the ruins.',
+        'Varre masive u gërmuan, personat e zhdukur u numëruan me dhjetëra qindra. Vlerësimet e dokumentuara i ngrenë të vrarët në rreth 13 mijë — shumica civilë.',
+        'Mass graves were excavated, the missing numbered in the hundreds. Documented estimates place the dead at around 13,000 — most of them civilians.',
       ),
-      scene: { kind: 'return', label: L('Kthimi në fshat, verë 1999', 'Returning to the village, summer 1999'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
+      scene: { kind: 'vigil', label: L('Qirinjtë, 1999–2000', 'The candles, 1999–2000'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
     },
     {
-      year: '1999–2008',
-      tag: L('RIKONSTRUKTIMI', 'RECONSTRUCTION'),
-      title: L('Vendi u rindërtua gur më gur.', 'The country was rebuilt stone by stone.'),
-      text: L(
-        'Nëntë vjet administratë ndërkombëtare. Shkollat u rilindën, rrugët u hapën, institucionet u ngritën nga zeroja. Por plagët mbetën të hapura.',
-        'Nine years of international administration. Schools were reborn, roads reopened, institutions built from zero. But the wounds stayed open.',
-      ),
-      scene: { kind: 'ruins', label: L('Prishtina pas luftës', 'Pristina after the war'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
-    },
-    {
-      year: '2008',
+      year: '17 SHKURT 2008',
       tag: L('PAVARËSIA', 'INDEPENDENCE'),
       title: L('Kosova u shpall e pavarur.', 'Kosovo declared independence.'),
       text: L(
-        '17 shkurt 2008. Lindte një shtet. Shumë e prisnin me shpresë; të tjerë me padurim. Një histori e re fillonte — por e vjetra nuk ishte mbyllur.',
-        '17 February 2008. A state was born. Many awaited it with hope; others with impatience. A new history began — but the old one was not closed.',
+        '17 shkurt 2008. Lindte një shtet — shumë e prisnin me shpresë, të tjerë me padurim. Një histori e re fillonte, por e vjetra nuk ishte mbyllur ende.',
+        '17 February 2008. A state was born — many awaited it with hope, others with impatience. A new history began, but the old one was not yet closed.',
       ),
       scene: { kind: 'flag', label: L('Prishtina, 17 shkurt 2008', 'Pristina, 17 February 2008'), source: L('PLACEHOLDER · krediti në pritje', 'PLACEHOLDER · credit pending'), placeholder: true } as Scene,
     },
@@ -257,54 +356,21 @@ names: [
 /* ------------------------------------------------------------------ */
 
 export const timeline = {
-  kicker: L('RRUGËTIMI', 'THE JOURNEY'),
-  title: L('Nga lufta, deri te dita e vendimit.', 'From the war to the day of the judgment.'),
+  kicker: L('PROCESI', 'THE PROCESS'),
+  title: L('Nga aktakuza, deri te dita e vendimit.', 'From the indictment to the day of the judgment.'),
   note: L(
     'Vendimi i 16 shtatorit 2026 është vendim i shkallës së parë. Procedura mund të vazhdojë me apelim.',
     'The verdict on 16 September 2026 is a first-instance judgment. Proceedings may continue through appeal.',
   ),
-  recent: L('Koha e fundit nga arrestimi në Hagë e deri më sot.', 'The recent time, from The Hague arrest to today.'),
+  recent: L('Procedura e Dhomave të Specializuara, vitet e procesit.', 'The Specialist Chambers procedure, the years of the process.'),
   milestones: [
-    {
-      year: '1998',
-      kicker: '1998–1999',
-      title: L('LUFTA', 'THE WAR'),
-      text: L(
-        'Konflikti i armatosur në Kosovë, lufta për çlirim e represioni i dhunshëm.',
-        'The armed conflict in Kosovo, the fight for liberation and the violent repression.',
-      ),
-      source: L('Historiografi; njoftime ndërkombëtare', 'Historiography; international reporting'),
-      scene: { kind: 'hills', label: L('Kosovë, 1998', 'Kosovo, 1998'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
-    },
-    {
-      year: '1999',
-      kicker: '1999',
-      title: L('RAMBOUILLET', 'RAMBOUILLET'),
-      text: L(
-        'Bisedimet e paqes në Francë dështojnë; pas bombardimeve të NATOS, lufta përfundon në qershor 1999.',
-        'The peace talks in France fail; after the NATO campaign, the war ends in June 1999.',
-      ),
-      source: L('Arkivat e Hagës deklerohen në vendimet publike', 'Archive of public court records'),
-      scene: { kind: 'court', label: L('Rambouillet', 'Rambouillet'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
-    },
-    {
-      year: '2008',
-      kicker: '2008',
-      title: L('PAVARËSIA', 'INDEPENDENCE'),
-      text: L(
-        'Kosova shpallet e pavarur më 17 shkurt. Sintet e reja fillojnë punën.',
-        'Kosovo declares independence on 17 February. The new institutions begin work.',
-      ),
-      source: L('Historiografi e Kosovës', 'Historiography of Kosovo'),
-      scene: { kind: 'city', label: L('Prishtina, 2008', 'Pristina, 2008'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
-    },
     {
       year: '2020',
       kicker: '2020',
-      title: L('HAGA', 'THE HAGUE'),
+      title: L('AKTAKUZA', 'THE INDICTMENT'),
       text: L(
-        'Katër raportimet e para para Dhomave të Specializuara. Aktakuza konfirmohet në nëntor 2020, të pandehurit transferohen në Hagë.',
-        'The four appear for the first time before the Kosovo Specialist Chambers. The indictment is confirmed in November 2020; the defendants are transferred to The Hague.',
+        'Katër të pandehurit paraqiten për herë të parë para KSC-së. Aktakuza konfirmohet në nëntor 2020; të pandehurit transferohen në Hagë.',
+        'The four defendants appear for the first time before the KSC. The indictment is confirmed in November 2020; the defendants are transferred to The Hague.',
       ),
       source: L('KSC / spk-ks.org', 'KSC / spk-ks.org'),
       scene: { kind: 'court', label: L('Hagë, 2020', 'The Hague, 2020'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
@@ -355,12 +421,7 @@ export const years27 = {
   big: '27',
   unit: L('VITE', 'YEARS'),
   span: '1999 → 2026',
-  steps: [
-    { year: '1999', scene: { kind: 'refugee', label: L('1999', '1999'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene },
-    { year: '2008', scene: { kind: 'flag', label: L('2008', '2008'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene },
-    { year: '2020', scene: { kind: 'court', label: L('2020', '2020'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene },
-    { year: '2026', scene: { kind: 'landscape', label: L('2026', '2026'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene },
-  ],
+  caption: L('Rrënja — njëzet e shtatë vjet prej vitit 1999.', 'The root — twenty-seven years since 1999.'),
   lines: [
     L('Një brez u rrit.', 'A generation grew up.'),
     L('Fëmijët u bënë prindër.', 'The children became parents.'),
@@ -482,10 +543,6 @@ export const four = {
       scene: { kind: 'portrait', label: L('Portret, arkiv', 'Portrait, archive'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
     },
   ],
-  matter: L(
-    'Ne nuk i deklarojmë fajtorë as të pafajshëm. Ne tregojmë se kush janë, çfarë kanë bërë, dhe çfarë po vendos gjykata. Vendimi i takon gjykatës.',
-    'We do not declare them guilty or innocent. We show who they are, what they did, and what the court is deciding. The judgment belongs to the court.',
-  ),
 }
 
 /* ------------------------------------------------------------------ */
@@ -496,80 +553,77 @@ export const hague = {
   kicker: L('GJYKATA', 'THE COURT'),
   title: L('HAGË', 'THE HAGUE'),
   lead: L(
-    'Dhomat e Specializuara gjykojnë krimet e pretenduara të luftës 1998–1999 — në sistemin kosovar, me gjykatës ndërkombëtarë, në Hagë.',
-    'The Specialist Chambers try alleged crimes of the 1998–1999 war — in the Kosovo system, with international judges, in The Hague.',
+    'Dhomat e Specializuara gjykojnë krimet e pretenduara të viteve 1998–1999 — në sistemin kosovar, me gjykatës ndërkombëtarë, në Hagë. Drejtësia ka rregullat e veta; ka edhe pyetjet e veta.',
+    'The Specialist Chambers try alleged crimes of the 1998–1999 war — in the Kosovo system, with international judges, in The Hague. Justice has its own rules; it also has its own questions.',
   ),
   legend: {
-    allegation: L('AKUZË (E PRETENDUAR)', 'ALLEGATION (CLAIMED)'),
     fact: L('FAKT I DOKUMENTUAR', 'DOCUMENTED FACT'),
-    procedure: L('PROCEDURË GJYQËSORE', 'COURT PROCEDURE'),
+    concern: L('PYETJE E NGULUR', 'LIVED QUESTION'),
+    procedure: L('PROCEDURË', 'PROCEDURE'),
   },
-  items: [
+  concerns: [
     {
-      year: '2020',
-      title: L('AKTAKUZA DHE NDALIMI', 'INDICTMENT AND DETENTION'),
-      kind: 'procedure' as const,
+      year: 'JURIDIKSIONI',
+      kind: 'fact' as const,
+      title: L('Mandati i kufizuar', 'The limited mandate'),
       text: L(
-        'Në nëntor 2020 gjykata konfirmoi aktakuzën dhe urdhëroi ndalimin. Të pandehurit u transferuan në Hagë dhe u paraqitën para gjykatës.',
-        'In November 2020 the court confirmed the indictment and ordered detention. The defendants were transferred to The Hague and made their first appearances.',
+        'KSC-ja heton vetëm krimet e pretenduara të ish-anëtarëve të UÇK-së. Pretendimet për krime kundër civilëve të Kosovës gjatë viteve 1998–1999 nuk janë pjesë e këtij procesi.',
+        'The KSC investigates only the alleged crimes of former KLA members. Claims of crimes against Kosovo\'s civilians during 1998–1999 are not part of this process.',
       ),
-      source: L('KSC, urdhëra publike nëntor 2020', 'KSC, public orders November 2020'),
+      source: L('KSC · spk-ks.org', 'KSC · spk-ks.org'),
     },
     {
-      year: '2023',
-      title: L('FILLIMI I GJYKIMIT', 'TRIAL OPENS'),
-      kind: 'procedure' as const,
+      year: '2011',
+      kind: 'fact' as const,
+      title: L('Origjina e procesit', 'The origin of the process'),
       text: L(
-        'Më 3 prill 2023 trupi gjykues hapi seancat. Të katër të pandehurit deklaruan pafajësi.',
-        'On 3 April 2023 the Trial Panel opened the hearings. All four defendants pleaded not guilty.',
+        'Procesi nisi pas raportit të Dick Marty-t për Këshillin e Evropës (2011). Aktakuza e konfirmuar në 2020 nuk përfshin pretendimet për trafikim organesh — për të cilat SITF-ja deklaroi në 2016 se nuk kishte prova të besueshme.',
+        'The process began after Dick Marty\'s report to the Council of Europe (2011). The indictment confirmed in 2020 does not include the organ-trafficking claims — about which the SITF said in 2016 there was no credible evidence.',
       ),
-      source: L('KSC, transkriptet e seancave', 'KSC, transcripts of hearings'),
+      source: L('PACE 2011; SITF 2016', 'PACE 2011; SITF 2016'),
     },
     {
-      year: '2023–25',
-      title: L('PROVAT', 'THE EVIDENCE'),
-      kind: 'procedure' as const,
+      year: '2020–26',
+      kind: 'concern' as const,
+      title: L('Gjashtë vjet në Hagë', 'Six years in The Hague'),
       text: L(
-        'Për më shumë se dy vjet, gjykata dëgjoi dëshmitarë, akuzë dhe mbrojtje. Aktakuza pretendon ekzistencën e një ndërmarrjeje të përbashkët kriminale; mbrojtja e mohon.',
-        'For more than two years the court heard witnesses for both prosecution and defence. The indictment alleges the existence of a joint criminal enterprise; the defence denies it.',
+        'Të katërt janë në paraburgim që nga nëntori 2020. Pritja e gjashtë viteve, pa një vendim përfundimtar, mbetet një nga pyetjet më të dhimbshme të këtij procesi.',
+        'All four have been in detention since November 2020. Six years of waiting, without a final judgment, remains one of the most painful questions of this process.',
       ),
-      source: L('KSC / spk-ks.org', 'KSC / spk-ks.org'),
+      source: L('KSC, urdhëra publike', 'KSC, public orders'),
     },
     {
-      year: '2025',
-      title: L('FJALIMET PËRMBYLLËSE', 'CLOSING ARGUMENTS'),
-      kind: 'procedure' as const,
+      year: 'SEANCAT',
+      kind: 'concern' as const,
+      title: L('Dëshmitarët nën presion', 'Witnesses under pressure'),
       text: L(
-        'Pas përfundimit të provave, palët paraqitën fjalimet përmbyllëse para trupit gjykues.',
-        'After the close of evidence, the parties presented their closing arguments before the Trial Panel.',
+        'Vetë dhomat e kanë ngritur si shqetësim çështjen e presionit dhe të ndikimit mbi dëshmitarët — një pikë që prek besueshmërinë e tërë procedurës.',
+        'The chambers themselves have raised as a concern the issue of pressure and influence over witnesses — a point that touches the credibility of the whole procedure.',
       ),
-      source: L('KSC / spk-ks.org', 'KSC / spk-ks.org'),
+      source: L('KSC, urdhëra të seancave', 'KSC, hearing orders'),
     },
     {
-      year: '2026',
-      title: L('VENDIMI I SHKALLËS SË PARË', 'FIRST-INSTANCE JUDGMENT'),
-      kind: 'procedure' as const,
+      year: 'OPINIONI',
+      kind: 'concern' as const,
+      title: L('Si e sheh Kosova', 'How Kosovo sees it'),
       text: L(
-        'Gjykata ka caktuar shqiptimin e vendimit të shkallës së parë për 16 shtator 2026, ora 10:00, në Hagë.',
-        'The court has scheduled the delivery of the first-instance judgment for 16 September 2026, 10:00, in The Hague.',
+        'Për një pjesë të madhe të opinionit në Kosovë, gjykata shihet si e imponuar nga bashkësia ndërkombëtare, jo si rezultat i një vullneti lokal. Mospajtimi është pjesë e historisë së saj.',
+        'For a large part of public opinion in Kosovo, the court is seen as imposed by the international community rather than as the result of local will. That disagreement is part of its history.',
+      ),
+      source: L('Opinione publike; shtypi', 'Public opinion; the press'),
+    },
+    {
+      year: '16 SHTATOR',
+      kind: 'procedure' as const,
+      title: L('Vendimi i shkallës së parë', 'First-instance judgment'),
+      text: L(
+        'Vendimi i shkallës së parë shpallet më 16 shtator 2026, ora 10:00, në Hagë. Procedurat e apelit mund të vazhdojnë pas tij.',
+        'The first-instance judgment is delivered on 16 September 2026, 10:00, in The Hague. Appeal proceedings may continue after it.',
       ),
       source: L('KSC / spk-ks.org', 'KSC / spk-ks.org'),
       current: true,
     },
   ],
-  charge: L(
-    'AKUZA (NË PROCES)',
-    'THE CHARGE (PENDING)',
-  ),
-  chargeText: L(
-    'Të katërt përballen me akuza për krime lufte dhe krime kundër njerëzimit sipas pretendimeve të aktakuzës. Asnjë prej pretendimeve nuk përbën fakt të vërtetuar në gjykatë derisa vendimi të shpallet.',
-    'All four face charges of war crimes and crimes against humanity as alleged in the indictment. None of the allegations constitutes an established fact in court until judgment is pronounced.',
-  ),
-  away: L('Prej vitit 2020, ata qëndrojnë në Hagë.', 'Since 2020, they have remained in The Hague.'),
-  official: L(
-    'Për dokumentet zyrtare: spk-ks.org',
-    'For official records: spk-ks.org',
-  ),
 }
 
 /* ------------------------------------------------------------------ */
@@ -625,6 +679,30 @@ export const closing = {
   line2: L('Por historia do ta kujtojë këtë ditë.', 'But history will remember this day.'),
   final: 'LIRIA',
   finalTag: L('Historia nuk pret.', 'History does not wait.'),
+  pains: [
+    L(
+      'Për çdo të vrarë, ka një nënë që ende gjen një arsye për të dalë në dritë.',
+      'For every one killed, there is a mother who still finds a reason to step into the light.',
+    ),
+    L(
+      'Ka ditë që nuk i mbyll asnjë vendim. Ka vende që s\'i mbylt kurrë gjyq.',
+      'Some days no verdict closes. Some graves no court ever closes.',
+    ),
+    L(
+      'Kjo nuk është histori. Është muaji i kaluar në shtëpi të ndryshme të mijëra njerëzve.',
+      'This is not history. It is the past month lived in the different homes of thousands of people.',
+    ),
+  ],
+  numbers: [
+    { n: '13,000', label: L('të vrarë — sipas vlerësimeve të dokumentuara', 'killed — per documented estimates') },
+    { n: '850,000', label: L('të dëbuar — vlerësime ndërkombëtare të kohës', 'displaced — international estimates of the time') },
+    { n: '1,600', label: L('të pagjetur — ende të pazgjidhur', 'missing — still unresolved') },
+    { n: 'dhjetra', label: L('varre masive të hapura', 'mass graves exhumed') },
+  ],
+  note: L(
+    'Numrat sipër janë vlerësime të dokumentuara nga organizata kredibile të kohës; nuk zëvendësojnë asnjë burim zyrtar, por mbajnë gjallë shkallën e asaj çfarë ndodhi.',
+    'The figures above are documented estimates from credible organisations of the time; they do not replace any official source, but keep alive the scale of what happened.',
+  ),
 }
 
 /* ------------------------------------------------------------------ */

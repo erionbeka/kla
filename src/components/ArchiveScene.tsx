@@ -673,13 +673,11 @@ export function ArchiveScene({ scene, className = '' }: { scene: Scene; classNam
 
 export function PhotoMeta({ scene, className = '' }: { scene: Scene; className?: string }) {
   const { t } = useI18n()
+  if (scene.placeholder || !scene.source.sq) return null
   return (
     <div className={`pointer-events-none select-none ${className}`}>
       <div className="flex items-start justify-between gap-6 font-mono text-[9px] tracking-[0.22em] uppercase text-bone/45">
         <span className="max-w-[70%]">{t(scene.label)}</span>
-        {scene.placeholder && (
-          <span className="whitespace-nowrap border border-bone/25 bg-ink/70 px-2 py-1 text-bone/60">PLACEHOLDER</span>
-        )}
       </div>
       <div className="mt-2 font-mono text-[9px] tracking-[0.18em] uppercase text-fog/50">{t(scene.source)}</div>
     </div>

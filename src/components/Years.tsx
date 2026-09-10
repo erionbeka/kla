@@ -1,36 +1,12 @@
-import { useRef, useState } from 'react'
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  useMotionValueEvent,
-} from 'motion/react'
-import { ArchiveScene, PhotoMeta } from './ArchiveScene'
-import { CineFrame } from './cine/CineFrame'
+import { motion, useReducedMotion } from 'motion/react'
 import { years27 } from '../lib/content'
+import { getMemorialFrames } from '../lib/media'
 import { useI18n } from '../lib/i18n'
-import { cn } from '../lib/util'
 
 export function Years27() {
   const { t } = useI18n()
   const reduce = useReducedMotion()
-  const wrap = useRef<HTMLDivElement>(null)
-  const [active, setActive] = useState(0)
-
-  const { scrollYProgress } = useScroll({ target: wrap, offset: ['start start', 'end end'] })
-
-  const opacities = [
-    useTransform(scrollYProgress, [0, 0.22, 0.36], [1, 1, 0]),
-    useTransform(scrollYProgress, [0.3, 0.46, 0.6, 0.72], [0, 1, 1, 0]),
-    useTransform(scrollYProgress, [0.62, 0.78, 0.9, 1], [0, 1, 1, 0]),
-    useTransform(scrollYProgress, [0.86, 1], [0, 1]),
-  ]
-
-  useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    const idx = v < 0.3 ? 0 : v < 0.64 ? 1 : v < 0.9 ? 2 : 3
-    setActive((prev) => (prev === idx ? prev : idx))
-  })
+  const shot = getMemorialFrames().find((f) => !f.isVideo) ?? null
 
   return (
     <section id="vitet" className="relative bg-black">
@@ -74,74 +50,30 @@ export function Years27() {
         </motion.p>
       </div>
 
-      {reduce ? (
-        /* static fallback: simple stacked progression */
-        <div className="flex flex-col gap-2">
-          {years27.steps.map((s) => (
-            <div key={s.year} className="relative aspect-[16/10] overflow-hidden">
-              <ArchiveScene scene={s.scene} className="h-full w-full" />
-              <div className="absolute inset-0 vignette" />
-              <div className="absolute left-5 top-5 font-display text-6xl font-extrabold text-bone">
-                {s.year}
-              </div>
-              <div className="absolute bottom-5 left-5">
-                <PhotoMeta scene={s.scene} />
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        /* pinned crossfade */
-        <div ref={wrap} className="relative h-[360vh]">
-          <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
-            <div className="absolute inset-0 bg-ink" />
-
-            {years27.steps.slice(0, 3).map((s, i) => (
-              <motion.div
-                key={s.year}
-                style={{ opacity: opacities[i] }}
-                className="absolute inset-0"
-              >
-                <CineFrame tone={i === 1 ? 'day' : 'night'} particles={i === 1 ? 'embers' : 'ash'} className="absolute inset-0">
-                  <ArchiveScene scene={s.scene} className="h-full w-full" />
-                </CineFrame>
-                <div className="absolute inset-0 vignette" />
-              </motion.div>
-            ))}
-
-            {/* 2026 — fades in at the end */}
-            <motion.div
-              style={{ opacity: opacities[3] }}
-              className="absolute inset-0"
-            >
-              <CineFrame particles="embers" tone="night" className="absolute inset-0">
-                <ArchiveScene scene={years27.steps[3].scene} className="h-full w-full" />
-              </CineFrame>
-              <div className="absolute inset-0 vignette" />
-            </motion.div>
-
-            {/* year counter */}
-            <div className="relative z-10 text-center">
-              <span className="font-display text-[20vw] font-extrabold leading-none tracking-tight text-bone/95 md:text-[13rem]">
-                {years27.steps[active].year}
+      {/* real archive frame — the ground under the years */}
+      {shot && (
+        <div className="mx-auto max-w-[1480px] px-5 md:px-8">
+          <motion.figure
+            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            className="relative aspect-[16/9] overflow-hidden md:aspect-[21/9]"
+          >
+            <img src={shot.url} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/50" />
+            <div className="absolute inset-0 vignette" />
+            <figcaption className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4">
+              <span className="font-mono text-[9px] uppercase leading-relaxed tracking-[0.2em] text-bone/70">
+                {t(years27.caption)}
               </span>
-            </div>
-
-            {/* mini progress */}
-            <div className="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3">
-              {years27.steps.map((s, i) => (
-                <span
-                  key={s.year}
-                  className={cn(
-                    'font-mono text-[9px] uppercase tracking-[0.25em] transition-colors',
-                    i === active ? 'text-bone' : 'text-fog/40',
-                  )}
-                >
-                  {s.year}
+              {shot.credit && (
+                <span className="hidden max-w-[45%] text-right font-mono text-[9px] uppercase leading-relaxed tracking-[0.18em] text-fog/60 md:block">
+                  {shot.credit}
                 </span>
-              ))}
-            </div>
-          </div>
+              )}
+            </figcaption>
+          </motion.figure>
         </div>
       )}
 
@@ -154,7 +86,7 @@ export function Years27() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.8 }}
             transition={{ duration: 1.1, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-2xl font-display text-3xl font-bold leading-tight tracking-tight text-bone md:text-6xl"
+            className="max-w-3xl font-display text-3xl font-bold leading-tight tracking-tight text-bone md:text-6xl"
           >
             {t(line)}
           </motion.p>

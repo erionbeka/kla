@@ -7,16 +7,18 @@ import { useI18n } from '../lib/i18n'
 import { EASE } from '../lib/util'
 import { cn } from '../lib/util'
 
-const kindStyles: Record<'allegation' | 'fact' | 'procedure', string> = {
-  allegation: 'border-ember/60 text-ember bg-ember/10',
+const kindStyles: Record<'fact' | 'concern' | 'procedure', string> = {
   fact: 'border-bone/30 text-bone/80 bg-bone/5',
+  concern: 'border-ember/60 text-ember bg-ember/10',
   procedure: 'border-fog/40 text-fog bg-transparent',
 }
 
-function kindLabel(kind: 'allegation' | 'fact' | 'procedure', t: (b: { sq: string; en: string }) => string) {
+type ConcernKind = 'fact' | 'concern' | 'procedure'
+
+function kindLabel(kind: ConcernKind, t: (b: { sq: string; en: string }) => string) {
   const map = {
-    allegation: hague.legend.allegation,
     fact: hague.legend.fact,
+    concern: hague.legend.concern,
     procedure: hague.legend.procedure,
   }
   return t(map[kind])
@@ -28,11 +30,11 @@ export function Hague() {
   const E = EASE
 
   return (
-<section id="haga" className="relative scroll-mt-20 overflow-hidden bg-black">
+    <section id="haga" className="relative scroll-mt-20 overflow-hidden bg-black">
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.10]">
         <CineFrame particles="embers" tone="night" density={30} className="absolute inset-0">
           <ArchiveScene
-            scene={{ kind: 'court', label: hague.title, source: hague.title, placeholder: true }}
+            scene={{ kind: 'court', label: hague.title, source: hague.title, placeholder: false }}
             className="h-full w-full"
           />
         </CineFrame>
@@ -67,7 +69,7 @@ export function Hague() {
           transition={{ duration: 1, delay: 0.3 }}
           className="mt-10 flex flex-wrap items-center gap-3"
         >
-          {(Object.keys(hague.legend) as Array<'allegation' | 'fact' | 'procedure'>).map((k) => (
+          {(Object.keys(hague.legend) as ConcernKind[]).map((k) => (
             <span
               key={k}
               className={cn('border px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.22em]', kindStyles[k])}
@@ -78,29 +80,26 @@ export function Hague() {
         </motion.div>
       </div>
 
-{/* procedure timeline */}
+      {/* contestations */}
       <div className="relative z-10 mx-auto max-w-[1480px] px-5 pb-16 md:px-8">
-        <div className="relative border-l border-bone/10 pl-8 md:pl-12">
-          {hague.items.map((it, i) => (
-            <motion.div
-              key={it.year}
+        <div className="grid gap-px border border-bone/10 bg-bone/10 md:grid-cols-2">
+          {hague.concerns.map((it, i) => (
+            <motion.article
+              key={it.year + i}
               initial={reduce ? { opacity: 1 } : { opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.9, delay: i * 0.05, ease: E }}
-              className="relative pb-14 last:pb-0 md:pb-20"
+              transition={{ duration: 0.9, delay: i * 0.04, ease: E }}
+              className={cn(
+                'relative flex flex-col justify-between bg-ink p-6 md:p-9',
+                it.current && 'border-em border-white/0',
+              )}
             >
-              <span
-                className={cn(
-                  'absolute -left-[9.5px] top-1.5 h-[3px] w-[3px] rounded-full md:-left-[13.5px]',
-                  it.current ? 'bg-ember' : 'bg-fog/60',
-                )}
-              />
-              <div className="grid gap-3 md:grid-cols-[140px_1fr] md:gap-10">
-                <div className="flex items-baseline justify-between md:block">
+              <div>
+                <div className="flex items-center justify-between gap-4">
                   <span
                     className={cn(
-                      'font-display text-4xl font-extrabold tracking-tight md:text-5xl',
+                      'font-display text-3xl font-extrabold tracking-tight md:text-4xl',
                       it.current ? 'text-ember' : 'text-bone',
                     )}
                   >
@@ -108,47 +107,41 @@ export function Hague() {
                   </span>
                   <span
                     className={cn(
-                      'ml-3 inline-block border px-2 py-0.5 align-middle font-mono text-[8px] uppercase tracking-[0.2em] md:ml-0 md:mt-2',
+                      'inline-block border px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.2em]',
                       kindStyles[it.kind],
                     )}
                   >
                     {kindLabel(it.kind, t)}
                   </span>
                 </div>
-                <div>
-                  <h3 className="font-display text-xl font-bold tracking-tight text-bone md:text-2xl">
-                    {t(it.title)}
-                  </h3>
-                  <p className="mt-2 max-w-xl text-sm leading-relaxed text-fog">{t(it.text)}</p>
-                  <p className="mt-3 font-mono text-[9px] uppercase tracking-[0.22em] text-mist">§ {t(it.source)}</p>
-                </div>
+                <h3 className="mt-5 font-display text-xl font-bold tracking-tight text-bone md:text-2xl">
+                  {t(it.title)}
+                </h3>
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-fog">{t(it.text)}</p>
               </div>
-            </motion.div>
+              <p className="mt-6 border-t border-bone/10 pt-4 font-mono text-[9px] uppercase tracking-[0.22em] text-mist">
+                § {t(it.source)}
+              </p>
+            </motion.article>
           ))}
         </div>
       </div>
 
-{/* charge note */}
       <div className="relative z-10 mx-auto max-w-[1480px] px-5 pb-24 md:px-8 md:pb-32">
         <motion.div
-          initial={reduce ? { opacity: 1 } : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1, ease: E }}
-          className="border-t border-bone/10 pt-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="flex items-center gap-3 border-t border-bone/10 pt-10 font-mono text-[10px] uppercase tracking-[0.25em] text-bone/80"
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-ember">{t(hague.charge)}</p>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-fog md:text-base">{t(hague.chargeText)}</p>
-          <p className="mt-6 max-w-2xl font-display text-2xl font-bold tracking-tight text-bone md:text-3xl">
-            {t(hague.away)}
-          </p>
           <a
             href="https://www.scp-ks.org"
             target="_blank"
             rel="noreferrer"
-            className="mt-8 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-bone/80 transition-colors hover:text-ember"
+            className="inline-flex items-center gap-2 transition-colors hover:text-ember"
           >
-            {t(hague.official)}
+            KSC · spk-ks.org
             <ExternalLink className="h-3 w-3" strokeWidth={1.5} />
           </a>
         </motion.div>

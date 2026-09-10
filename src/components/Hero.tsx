@@ -1,10 +1,11 @@
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
-import { useEffect, useRef } from 'react'
-import { ArchiveScene, PhotoMeta } from './ArchiveScene'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { AnimatePresence } from 'motion/react'
+import { ArchiveScene } from './ArchiveScene'
 import { Countdown } from './Countdown'
 import { CineFrame } from './cine/CineFrame'
 import { hero } from '../lib/content'
-import { getHeroBackdrop } from '../lib/media'
+import { getHeroBackdrop, getMemorialFrames, type MediaItem } from '../lib/media'
 import { useI18n } from '../lib/i18n'
 import { useFilm } from '../lib/film'
 import { isVerdictDay } from '../lib/clock'
@@ -12,6 +13,63 @@ import { useNow } from '../lib/hooks'
 import { cn, EASE } from '../lib/util'
 
 const HERO_BACKDROP = getHeroBackdrop()
+
+function HeroBackdrop({ frames }: { frames: MediaItem[] }) {
+  const { t } = useI18n()
+  const [idx, setIdx] = useState(0)
+
+  useEffect(() => {
+    if (frames.length < 2) return
+    const id = window.setInterval(() => setIdx((i) => (i + 1) % frames.length), 6500)
+    return () => window.clearInterval(id)
+  }, [frames.length])
+
+  if (frames.length === 0) {
+    return <ArchiveScene scene={hero.scene()} className="h-full w-full scale-105" />
+  }
+
+  const frame = frames[idx % frames.length]
+
+  return (
+    <AnimatePresence mode="popLayout" initial={false}>
+      <motion.div
+        key={idx}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 2, ease: 'easeInOut' }}
+        className="absolute inset-0"
+      >
+        {frame.isVideo ? (
+          <video
+            src={frame.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover"
+            style={{ filter: 'brightness(0.55) saturate(0.9) contrast(1.05)' }}
+          />
+        ) : (
+          <motion.img
+            src={frame.url}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            initial={{ scale: 1.12 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 12, ease: 'linear' }}
+            className="h-full w-full object-cover"
+            style={{ filter: 'brightness(0.5) saturate(0.9) contrast(1.05)' }}
+          />
+        )}
+      </motion.div>
+      <div className="absolute bottom-4 left-4 z-10 hidden font-mono text-[9px] uppercase tracking-[0.18em] text-bone/50 md:block">
+        {frame.credit ?? t(hero.codaShort)}
+      </div>
+    </AnimatePresence>
+  )
+}
 
 export function Hero() {
   const { t } = useI18n()
@@ -21,8 +79,15 @@ export function Hero() {
   const flash = useFilm().flash
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '14%'])
+  const imgY = useTransform(scrollYProgress, [0, 1], ['0%', '10%'])
   const fade = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+
+  const frames = useMemo<MediaItem[]>(() => {
+    if (HERO_BACKDROP) {
+      return [{ url: HERO_BACKDROP, isVideo: false }, ...getMemorialFrames()].filter((f) => !f.isVideo)
+    }
+    return getMemorialFrames().filter((f) => !f.isVideo)
+  }, [])
 
   useFlashOnce(flash)
 
@@ -32,15 +97,14 @@ export function Hero() {
 
       <motion.div style={reduce ? undefined : { y: imgY }} className="absolute inset-0">
         <CineFrame letterbox particles="embers" tone="night" className="absolute inset-0">
-          {HERO_BACKDROP ? (
-            <img
-              src={HERO_BACKDROP}
-              alt=""
-              className="h-full w-full scale-105 object-cover"
-              style={{ filter: 'brightness(0.55) saturate(0.9) contrast(1.05)' }}
-            />
+          {reduce ? (
+            frames[0] ? (
+              <img src={frames[0].url} alt="" className="h-full w-full object-cover" style={{ filter: 'brightness(0.55)' }} />
+            ) : (
+              <ArchiveScene scene={hero.scene()} className="h-full w-full scale-105" />
+            )
           ) : (
-            <ArchiveScene scene={hero.scene()} className="h-full w-full scale-105" />
+            <HeroBackdrop frames={frames} />
           )}
         </CineFrame>
       </motion.div>
@@ -106,15 +170,6 @@ export function Hero() {
             <div className="shrink-0">
               <Countdown />
             </div>
-          </div>
-        </div>
-
-        <div className="mt-10 flex items-end justify-between">
-          <PhotoMeta scene={hero.scene()} className="max-w-[60%]" />
-          <div className="hidden items-center gap-2 font-mono text-[9px] uppercase tracking-[0.3em] text-mist md:flex">
-            {t(hero.scroll)}
-            <span className="block h-8 w-px animate-pulse bg-bone/20" />
-            <span className="block h-8 w-px -translate-x-2 bg-ember/0" />
           </div>
         </div>
       </motion.div>

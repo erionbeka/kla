@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { ArchiveScene, PhotoMeta } from './ArchiveScene'
+import { ArchiveScene } from './ArchiveScene'
 import { CineFrame } from './cine/CineFrame'
 import { history } from '../lib/content'
 import { useI18n } from '../lib/i18n'
@@ -61,10 +61,6 @@ function VarFull({ step, index }: { step: (typeof history.chapters)[number]; ind
           </p>
         </motion.div>
       </div>
-
-      <div className="absolute bottom-5 left-5 z-10 max-w-[52%] md:bottom-6 md:left-8">
-        <PhotoMeta scene={step.scene} />
-      </div>
     </section>
   )
 }
@@ -99,9 +95,6 @@ function VarSplit({ step, index: _index }: { step: (typeof history.chapters)[num
               <ArchiveScene scene={step.scene} className="h-full w-full" />
             </CineFrame>
             <div className="absolute inset-0 vignette" />
-            <div className="absolute bottom-5 left-5 right-5 md:bottom-6 md:left-6">
-              <PhotoMeta scene={step.scene} />
-            </div>
           </div>
         </div>
       </div>
@@ -157,9 +150,6 @@ function VarQuiet({ step, index: _index }: { step: (typeof history.chapters)[num
             <ArchiveScene scene={step.scene} className="h-full w-full" />
           </CineFrame>
           <div className="absolute inset-0 vignette" />
-          <div className="absolute bottom-5 left-5">
-            <PhotoMeta scene={step.scene} />
-          </div>
         </motion.div>
       </div>
     </section>
@@ -220,9 +210,6 @@ function VarFinale({ step, index: _index }: { step: (typeof history.chapters)[nu
             <ArchiveScene scene={step.scene} className="h-full w-full" />
           </CineFrame>
           <div className="absolute inset-0 vignette" />
-          <div className="absolute bottom-4 left-4">
-            <PhotoMeta scene={step.scene} />
-          </div>
         </motion.div>
       </div>
 
@@ -237,7 +224,8 @@ export function History() {
   const { t } = useI18n()
   const reduce = useReducedMotion()
   const chapters = history.chapters
-  const layoutByIndex = [VarFull, VarSplit, VarFull, VarQuiet, VarSplit, VarFinale]
+  const LAYOUTS = [VarFull, VarSplit, VarQuiet, VarSplit, VarFull, VarQuiet]
+  const last = chapters.length - 1
 
   return (
     <section id="historia" className="scroll-mt-20 bg-coal">
@@ -266,7 +254,7 @@ export function History() {
       </div>
 
       {chapters.map((step, i) => {
-        const V = layoutByIndex[i] ?? VarFull
+        const V = i === last ? VarFinale : LAYOUTS[i % LAYOUTS.length]
         return <V key={step.year + i} step={step} index={i} />
       })}
     </section>

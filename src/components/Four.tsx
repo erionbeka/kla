@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { X, ArrowUpRight } from 'lucide-react'
-import { ArchiveScene, PhotoMeta } from './ArchiveScene'
+import { ArchiveScene } from './ArchiveScene'
 import { CineFrame } from './cine/CineFrame'
 import { getProfilePhoto } from '../lib/media'
 import { four } from '../lib/content'
@@ -62,7 +62,7 @@ function ProfilePanel({
       >
         <CineFrame tone={index % 2 === 0 ? 'night' : 'day'} particles={index === 3 ? 'embers' : 'ash'} density={24} className="absolute inset-0">
           {photo ? (
-            <img src={photo} alt={t(p.name)} className="h-full w-full object-cover" />
+            <img src={photo} alt={t(p.name)} loading="lazy" decoding="async" className="h-full w-full object-cover" />
           ) : (
             <ArchiveScene scene={p.scene} className="h-full w-full" />
           )}
@@ -144,16 +144,13 @@ function ProfileOverlay({ id, onClose }: { id: string | null; onClose: () => voi
           <div className="relative h-[34vh] shrink-0 lg:h-full lg:w-[44%]">
 <CineFrame tone="day" particles="embers" density={30} className="absolute inset-0">
           {photo ? (
-            <img src={photo} alt={t(p.name)} className="h-full w-full object-cover" />
+            <img src={photo} alt={t(p.name)} loading="lazy" decoding="async" className="h-full w-full object-cover" />
           ) : (
             <ArchiveScene scene={p.scene} className="h-full w-full" />
           )}
         </CineFrame>
             <div className="absolute inset-0 bg-ink/25" />
             <div className="absolute inset-0 vignette" />
-            <div className="absolute bottom-5 left-5 z-10">
-              <PhotoMeta scene={p.scene} />
-            </div>
           </div>
 
           {/* document side */}
@@ -235,7 +232,7 @@ export function Four() {
           transition={{ duration: 1, delay: 0.2 }}
           className="mt-6 max-w-xl text-sm leading-relaxed text-fog md:text-base"
         >
-          {t(four.subtitle)} {t(four.matter)}
+          {t(four.subtitle)}
         </motion.p>
       </div>
 

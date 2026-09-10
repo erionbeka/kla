@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { X, Mic, FileText, Image as ImageIcon, Calendar, MapPin } from 'lucide-react'
-import { ArchiveScene, PhotoMeta } from './ArchiveScene'
+import { ArchiveScene } from './ArchiveScene'
 import { PunchWords } from './cine/Punch'
 import { archive, type ArchiveItem, type ArchiveCategory } from '../lib/content'
 import { getRealItems } from '../lib/media'
@@ -70,11 +70,6 @@ function ItemCard({ item, onOpen }: { item: ArchiveItem; onOpen: (i: ArchiveItem
             <span className="flex items-center gap-1.5 border border-ember/50 bg-ink/70 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.2em] text-ember">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-ember" />
               FILM
-            </span>
-          )}
-          {!item.media && item.scene.placeholder && (
-            <span className="border border-bone/25 bg-ink/70 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.2em] text-bone/60">
-              PLACEHOLDER
             </span>
           )}
         </div>
@@ -159,9 +154,6 @@ function Viewer({ item, onClose }: { item: ArchiveItem | null; onClose: () => vo
                 <ArchiveScene scene={item.scene} className="h-full w-full" />
               )}
               <div className="absolute inset-0 vignette" />
-              <div className="absolute bottom-4 left-4">
-                <PhotoMeta scene={item.scene} />
-              </div>
             </div>
 
             <div className="flex-1 overflow-y-auto p-6 md:p-10">
@@ -169,9 +161,6 @@ function Viewer({ item, onClose }: { item: ArchiveItem | null; onClose: () => vo
                 <span>{item.id}</span>
                 <span className="h-1 w-1 rounded-full bg-fog/40" />
                 <span className="border border-ember/40 px-2 py-0.5 text-ember">{t(archive.catLabels[item.cat])}</span>
-                {item.scene.placeholder && (
-                  <span className="border border-bone/25 px-2 py-0.5 text-bone/60">PLACEHOLDER</span>
-                )}
               </div>
 
               <h2 className="mt-4 font-display text-3xl font-extrabold leading-tight tracking-tight text-bone md:text-4xl">

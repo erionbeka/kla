@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { ArchiveScene, PhotoMeta } from './ArchiveScene'
+import { ArchiveScene } from './ArchiveScene'
 import { CineFrame } from './cine/CineFrame'
 import { memorial } from '../lib/content'
 import { getMemorialFrames } from '../lib/media'
@@ -148,13 +148,11 @@ export function Memorial() {
                   )}
                 </CineFrame>
                 <div className="mt-2">
-                  {m ? (
+                  {m?.credit ? (
                     <p className="font-mono text-[9px] uppercase leading-relaxed tracking-[0.2em] text-fog/70">
-                      {m.credit ?? 'Wikimedia Commons'}
+                      {m.credit}
                     </p>
-                  ) : (
-                    <PhotoMeta scene={s} />
-                  )}
+                  ) : null}
                 </div>
               </div>
             )
