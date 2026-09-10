@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { useApp, AppProvider } from './lib/app'
 import { I18nProvider } from './lib/i18n'
 import { FilmProvider } from './lib/film'
@@ -6,17 +7,22 @@ import { SnakeRail } from './components/SnakeRail'
 import { Intro } from './components/Intro'
 import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
-import { History } from './components/History'
-import { Memorial } from './components/Memorial'
-import { Rrugetimi } from './components/Timeline'
-import { Years27 } from './components/Years'
-import { Four } from './components/Four'
-import { Hague } from './components/Hague'
-import { Waiting } from './components/Waiting'
-import { Verdict } from './components/Verdict'
-import { Closing } from './components/Closing'
-import { Arkiiv } from './components/Archive'
+import { Reel } from './components/Reel'
 import { Footer } from './components/Footer'
+
+const History = lazy(() => import('./components/History').then((m) => ({ default: m.History })))
+const Memorial = lazy(() => import('./components/Memorial').then((m) => ({ default: m.Memorial })))
+const Years27 = lazy(() => import('./components/Years').then((m) => ({ default: m.Years27 })))
+const Four = lazy(() => import('./components/Four').then((m) => ({ default: m.Four })))
+const Hague = lazy(() => import('./components/Hague').then((m) => ({ default: m.Hague })))
+const Waiting = lazy(() => import('./components/Waiting').then((m) => ({ default: m.Waiting })))
+const Verdict = lazy(() => import('./components/Verdict').then((m) => ({ default: m.Verdict })))
+const Arkiiv = lazy(() => import('./components/Archive').then((m) => ({ default: m.Arkiiv })))
+const Closing = lazy(() => import('./components/Closing').then((m) => ({ default: m.Closing })))
+
+function Lazy({ children }: { children: React.ReactNode }) {
+  return <Suspense fallback={<div className="min-h-[60vh]" />}>{children}</Suspense>
+}
 
 function Shell() {
   const { entered, enter } = useApp()
@@ -30,16 +36,27 @@ function Shell() {
           {entered && <Nav />}
           <main>
             <Hero />
-            <History />
-            <Memorial />
-            <Rrugetimi />
-            <Years27 />
-            <Four />
-            <Hague />
-            <Waiting />
-            <Verdict />
-            <Arkiiv />
-            <Closing />
+            <Lazy>
+              <History />
+            </Lazy>
+            <Reel label="KADRE NGA VITET 1998–1999" />
+            <Lazy>
+              <Memorial />
+            </Lazy>
+            <Lazy>
+              <Years27 />
+            </Lazy>
+            <Lazy>
+              <Four />
+              <Hague />
+              <Waiting />
+              <Verdict />
+              <Arkiiv />
+            </Lazy>
+            <Reel dense label="KOSOVË, PARA VENDIMIT" />
+            <Lazy>
+              <Closing />
+            </Lazy>
           </main>
           <Footer />
         </div>

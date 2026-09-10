@@ -124,13 +124,30 @@ function toMedia(list: [string, string][]): MediaItem[] {
     }))
 }
 
+const ALL_FRAMES: MediaItem[] = toMedia(Object.entries(memorialFiles))
+
+const HERO_BACKDROP_URL: string | null = (() => {
+  const stills = Object.entries(heroFiles).filter(([, u]) => !/\.(mp4|webm|mov)$/i.test(u))
+  return stills.length > 0 ? stills[0][1] : null
+})()
+
 export function getMemorialFrames(): MediaItem[] {
-  return toMedia(Object.entries(memorialFiles))
+  return ALL_FRAMES
 }
 
 export function getHeroBackdrop(): string | null {
-  const stills = Object.entries(heroFiles).filter(([, u]) => !/\.(mp4|webm|mov)$/i.test(u))
-  return stills.length > 0 ? stills[0][1] : null
+  return HERO_BACKDROP_URL
+}
+
+export function getReelFrames(): MediaItem[] {
+  const out: MediaItem[] = []
+  if (HERO_BACKDROP_URL) out.push({ url: HERO_BACKDROP_URL, isVideo: false })
+  for (const f of ALL_FRAMES) out.push(f)
+  for (const id of Object.keys(PROFILE_FILES)) {
+    const url = byBasename[PROFILE_FILES[id]]
+    if (url) out.push({ url, isVideo: false })
+  }
+  return out
 }
 
 export function getRealItems(): ArchiveItem[] {

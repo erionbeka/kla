@@ -11,14 +11,13 @@ const SECTIONS: { id: string; num: string }[] = [
   { id: 'hero', num: '00' },
   { id: 'historia', num: '01' },
   { id: 'kujtesa', num: '02' },
-  { id: 'rrugetimi', num: '03' },
-  { id: 'vitet', num: '04' },
-  { id: 'kater', num: '05' },
-  { id: 'haga', num: '06' },
-  { id: 'arkivi', num: '07' },
-  { id: 'pritje', num: '08' },
-  { id: 'verdict', num: '09' },
-  { id: 'mbyllje', num: '10' },
+  { id: 'vitet', num: '03' },
+  { id: 'kater', num: '04' },
+  { id: 'haga', num: '05' },
+  { id: 'arkivi', num: '06' },
+  { id: 'pritje', num: '07' },
+  { id: 'verdict', num: '08' },
+  { id: 'mbyllje', num: '09' },
 ]
 
 function snakeX(i: number): number {
@@ -53,6 +52,7 @@ export function SnakeRail() {
   const spring = useSpring(scrollYProgress, { stiffness: 170, damping: 30 })
   const slide = useTransform(spring, (v) => Math.min(1, Math.max(0, v)) * (1 - SEG))
   const tailSlide = useTransform(spring, (v) => Math.min(1, Math.max(0, v)) * (1 - SEG * 0.7))
+  const lazy = useTransform(spring, (v) => Math.min(1, Math.max(0, v)))
 
   const [geo, setGeo] = useState<{ winH: number; pts: [number, number][]; d: string }>({
     winH: 800,
@@ -60,6 +60,7 @@ export function SnakeRail() {
     d: '',
   })
   const [active, setActive] = useState(0)
+  const [reached, setReached] = useState(0)
 
   geoRef.current = geo
 
@@ -72,6 +73,7 @@ export function SnakeRail() {
       if (pts[i][1] / winH <= v) idx = i
     }
     setActive((a) => (a === idx ? a : idx))
+    setReached((r) => (r === idx ? r : idx))
     if (pathRef.current && arrowRef.current) {
       const L = pathRef.current.getTotalLength()
       const head = Math.min(L, (v * (1 - SEG) + SEG) * L)
@@ -130,15 +132,18 @@ export function SnakeRail() {
       aria-hidden
     >
       <div className="relative h-full w-[420px]">
-        <svg
-          width={RAIL_W}
-          height={geo.winH}
-          viewBox={`0 0 ${RAIL_W} ${geo.winH}`}
-          preserveAspectRatio="none"
-        >
+        <svg width={RAIL_W} height={geo.winH} viewBox={`0 0 ${RAIL_W} ${geo.winH}`} preserveAspectRatio="none">
           <motion.g animate={breathing}>
-            {/* shallow track */}
-            <path d={geo.d} fill="none" stroke="#2f2b25" strokeWidth={1} strokeDasharray="1 8" opacity={0.55} />
+            {/* traced path — lazy: only revealed where the snake has been */}
+            <motion.path
+              d={geo.d}
+              fill="none"
+              stroke="#4a453c"
+              strokeWidth={1}
+              opacity={0.28}
+              strokeLinecap="round"
+              style={{ pathLength: lazy }}
+            />
 
             {!reduce && (
               <>
@@ -170,12 +175,15 @@ export function SnakeRail() {
               </>
             )}
 
-            {/* nodes */}
+            {/* nodes — appear only once reached */}
             {geo.pts.map((p, i) => {
               const isActive = active === i
+              const seen = i <= reached
               return (
-                <g key={SECTIONS[i].id}>
-                  {isActive && <circle cx={p[0]} cy={p[1]} r={10} fill="none" stroke="rgba(166,16,31,0.4)" strokeWidth={1} />}
+                <g key={SECTIONS[i].id} opacity={seen ? 1 : 0.14}>
+                  {isActive && (
+                    <circle cx={p[0]} cy={p[1]} r={10} fill="none" stroke="rgba(166,16,31,0.4)" strokeWidth={1} />
+                  )}
                   <circle
                     cx={p[0]}
                     cy={p[1]}
@@ -191,7 +199,7 @@ export function SnakeRail() {
                     fontSize={7}
                     fontFamily="IBM Plex Mono, monospace"
                     fill={isActive ? '#e8e4da' : '#6a675f'}
-                    opacity={isActive ? 1 : 0.7}
+                    opacity={isActive || seen ? 1 : 0}
                   >
                     {SECTIONS[i].num}
                   </text>

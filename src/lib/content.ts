@@ -63,7 +63,6 @@ export const nav = {
   items: [
     { id: 'live', label: L('LIVE', 'LIVE') },
     { id: 'historia', label: L('HISTORIA', 'HISTORY') },
-    { id: 'rrugetimi', label: L('PROCESI', 'THE PROCESS') },
     { id: 'kater', label: L('KATËR', 'FOUR') },
     { id: 'kujtesa', label: L('KUJTESA', 'MEMORY') },
   ] as { id: string; label: Lang }[],
@@ -348,67 +347,6 @@ names: [
     { kind: 'memorial', label: L('Varrezat', 'Memorial rows'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
     { kind: 'convoi', label: L('Në rrugë', 'On the road'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
     { kind: 'portrait', label: L('Katër figura', 'Four figures'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
-  ],
-}
-
-/* ------------------------------------------------------------------ */
-/*  TIMELINE (RRUGËTIMI)                                               */
-/* ------------------------------------------------------------------ */
-
-export const timeline = {
-  kicker: L('PROCESI', 'THE PROCESS'),
-  title: L('Nga aktakuza, deri te dita e vendimit.', 'From the indictment to the day of the judgment.'),
-  note: L(
-    'Vendimi i 16 shtatorit 2026 është vendim i shkallës së parë. Procedura mund të vazhdojë me apelim.',
-    'The verdict on 16 September 2026 is a first-instance judgment. Proceedings may continue through appeal.',
-  ),
-  recent: L('Procedura e Dhomave të Specializuara, vitet e procesit.', 'The Specialist Chambers procedure, the years of the process.'),
-  milestones: [
-    {
-      year: '2020',
-      kicker: '2020',
-      title: L('AKTAKUZA', 'THE INDICTMENT'),
-      text: L(
-        'Katër të pandehurit paraqiten për herë të parë para KSC-së. Aktakuza konfirmohet në nëntor 2020; të pandehurit transferohen në Hagë.',
-        'The four defendants appear for the first time before the KSC. The indictment is confirmed in November 2020; the defendants are transferred to The Hague.',
-      ),
-      source: L('KSC / spk-ks.org', 'KSC / spk-ks.org'),
-      scene: { kind: 'court', label: L('Hagë, 2020', 'The Hague, 2020'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
-    },
-    {
-      year: '2023',
-      kicker: '2023',
-      title: L('FILLIMI I GJYKIMIT', 'TRIAL OPENS'),
-      text: L(
-        'Gjyqi fillon më 3 prill 2023 para trupit gjykues të KSC-së. Të katërit deklarojnë pafajësinë.',
-        'The trial opens on 3 April 2023 before the KSC Trial Panel. All four plead not guilty.',
-      ),
-      source: L('KSC / spk-ks.org', 'KSC / spk-ks.org'),
-      scene: { kind: 'court', label: L('Hagë, 2023', 'The Hague, 2023'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
-    },
-    {
-      year: '2025',
-      kicker: '2025',
-      title: L('PËRFUNDIMI I PROVAVE', 'END OF EVIDENCE'),
-      text: L(
-        'Pas viteve të marrjes së provave, palët mbajnë fjalimet përmbyllëse në 2025.',
-        'After years of evidence hearings, the parties deliver closing arguments in 2025.',
-      ),
-      source: L('KSC / spk-ks.org', 'KSC / spk-ks.org'),
-      scene: { kind: 'court', label: L('Hagë, 2025', 'The Hague, 2025'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
-    },
-    {
-      year: '2026',
-      kicker: '2026',
-      title: L('VENDIMI', 'THE JUDGMENT'),
-      text: L(
-        'Vendimi i shkallës së parë është caktuar për 16 shtator 2026, ora 10:00, në Hagë.',
-        'The first-instance judgment is scheduled for 16 September 2026, 10:00, in The Hague.',
-      ),
-      source: L('KSC / spk-ks.org', 'KSC / spk-ks.org'),
-      scene: { kind: 'flag', label: L('Hagë — Dita e vendimit', 'The Hague — judgment day'), source: L('PLACEHOLDER', 'PLACEHOLDER'), placeholder: true } as Scene,
-      current: true,
-    },
   ],
 }
 
