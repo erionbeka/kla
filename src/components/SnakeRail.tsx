@@ -1,11 +1,13 @@
-import { useLayoutEffect, useRef, useState } from 'react'
-import { motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring } from 'motion/react'
 
-const SEG = 0.2
 const RAIL_W = 420
 const CENTER_X = RAIL_W / 2
 const AMP = 150
 const PAD_X = 16
+const BODY_N = 16
+const GAP = 9
+const HEAD_R = 7
 
 const SECTIONS: { id: string; num: string }[] = [
   { id: 'hero', num: '00' },
@@ -44,15 +46,13 @@ function smoothPath(pts: [number, number][]): string {
 
 export function SnakeRail() {
   const reduce = useReducedMotion()
-  const pathRef = useRef<SVGPathElement>(null)
-  const arrowRef = useRef<SVGGElement>(null)
-  const geoRef = useRef<{ winH: number; pts: [number, number][] }>({ winH: 800, pts: [] })
+  const measureRef = useRef<SVGPathElement>(null)
+  const headRef = useRef<SVGGElement>(null)
+  const dotsRef = useRef<(SVGCircleElement | null)[]>([])
+  const geoRef = useRef<{ pts: [number, number][] }>({ pts: [] })
 
   const { scrollYProgress } = useScroll()
   const spring = useSpring(scrollYProgress, { stiffness: 170, damping: 30 })
-  const slide = useTransform(spring, (v) => Math.min(1, Math.max(0, v)) * (1 - SEG))
-  const tailSlide = useTransform(spring, (v) => Math.min(1, Math.max(0, v)) * (1 - SEG * 0.7))
-  const lazy = useTransform(spring, (v) => Math.min(1, Math.max(0, v)))
 
   const [geo, setGeo] = useState<{ winH: number; pts: [number, number][]; d: string }>({
     winH: 800,
@@ -64,25 +64,60 @@ export function SnakeRail() {
 
   geoRef.current = geo
 
-  const apply = (raw: number) => {
-    const v = Math.min(1, Math.max(0, raw))
-    const { winH, pts } = geoRef.current
-    if (pts.length === 0) return
-    let idx = 0
-    for (let i = 0; i < pts.length; i++) {
-      if (pts[i][1] / winH <= v) idx = i
-    }
-    setActive((a) => (a === idx ? a : idx))
-    setReached((r) => (r === idx ? r : idx))
-    if (pathRef.current && arrowRef.current) {
-      const L = pathRef.current.getTotalLength()
-      const head = Math.min(L, (v * (1 - SEG) + SEG) * L)
-      const p = pathRef.current.getPointAtLength(head)
-      const p2 = pathRef.current.getPointAtLength(Math.min(L, head + 12))
-      const ang = (Math.atan2(p2.y - p.y, p2.x - p.x) * 180) / Math.PI
-      arrowRef.current.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${ang.toFixed(1)})`)
-    }
-  }
+  const place = useCallback(
+    (raw: number) => {
+      const pathEl = measureRef.current
+      const pts = geoRef.current.pts
+      if (!pathEl || pts.length < 2 || pathEl.getTotalLength() === 0) return
+      const v = Math.min(1, Math.max(0, raw))
+      const L = pathEl.getTotalLength()
+      const headAt = Math.min(L, Math.max(0, v * L))
+
+      const point = (t: number) => {
+        const tt = Math.max(0, Math.min(L, t))
+        const p = pathEl.getPointAtLength(tt)
+        const q = pathEl.getPointAtLength(Math.max(0, tt - 3))
+        const ang = Math.atan2(p.y - q.y, p.x - q.x)
+        return { x: p.x, y: p.y, ang }
+      }
+
+      // body — little slithering dots that ride the path behind the head
+      for (let k = 0; k < BODY_N; k++) {
+        const c = dotsRef.current[k]
+        if (!c) continue
+        const t = headAt - (k + 1) * GAP
+        if (t < 0) {
+          c.setAttribute('opacity', '0')
+          continue
+        }
+        const { x, y, ang } = point(t)
+        const ripple = Math.sin(k * 0.62) * 8
+        const px = x + -Math.sin(ang) * ripple
+        const py = y + Math.cos(ang) * ripple
+        c.setAttribute('cx', px.toFixed(1))
+        c.setAttribute('cy', py.toFixed(1))
+        c.setAttribute('opacity', (Math.max(0, 1 - k * 0.07)).toFixed(2))
+      }
+
+      // head — small arrow aimed along the path
+      if (headRef.current) {
+        const { x, y, ang } = point(headAt)
+        headRef.current.setAttribute(
+          'transform',
+          `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${((ang * 180) / Math.PI).toFixed(1)})`,
+        )
+      }
+
+      // section tracking
+      let idx = 0
+      for (let i = 0; i < pts.length; i++) {
+        if (pts[i][1] <= headAt) idx = i
+      }
+      setActive((a) => (a === idx ? a : idx))
+      setReached((r) => (r === idx ? r : idx))
+    },
+    [],
+  )
 
   useLayoutEffect(() => {
     let raf = 0
@@ -113,17 +148,22 @@ export function SnakeRail() {
     }
   }, [])
 
-  useMotionValueEvent(spring, 'change', (raw) => {
-    apply(raw)
-  })
+  // place body at current scroll once the path is measured
+  useEffect(() => {
+    if (!geo.d) return
+    const pos = () => {
+      const winH = window.innerHeight
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - winH)
+      place(window.scrollY / maxScroll)
+    }
+    pos()
+    const id = window.setTimeout(pos, 350)
+    return () => window.clearTimeout(id)
+  }, [geo.d, place])
 
-  const breathing = reduce
-    ? {}
-    : {
-        x: [0, 10, -8, 5, -3, 0],
-        y: [0, -6, 5, -4, 2, 0],
-        transition: { duration: 7, repeat: Infinity, ease: 'easeInOut' as const },
-      }
+  useMotionValueEvent(spring, 'change', (v) => {
+    place(v)
+  })
 
   return (
     <div
@@ -132,88 +172,60 @@ export function SnakeRail() {
       aria-hidden
     >
       <div className="relative h-full w-[420px]">
-        <svg width={RAIL_W} height={geo.winH} viewBox={`0 0 ${RAIL_W} ${geo.winH}`} preserveAspectRatio="none">
-          <motion.g animate={breathing}>
-            {/* traced path — lazy: only revealed where the snake has been */}
-            <motion.path
-              d={geo.d}
-              fill="none"
-              stroke="#4a453c"
-              strokeWidth={1}
-              opacity={0.28}
-              strokeLinecap="round"
-              style={{ pathLength: lazy }}
-            />
+        <svg width={RAIL_W} height="100%" viewBox={`0 0 ${RAIL_W} ${geo.winH}`} preserveAspectRatio="none">
+          {/* invisible rail used only for measurement */}
+          <path ref={measureRef} d={geo.d} fill="none" stroke="none" />
 
-            {!reduce && (
-              <>
-                {/* tail — lagging glow */}
-                <motion.path
-                  d={geo.d}
-                  fill="none"
-                  stroke="#a6101f"
-                  strokeWidth={1.4}
-                  strokeLinecap="round"
-                  opacity={0.4}
-                  style={{ pathLength: SEG * 0.7, pathSpacing: 1 - SEG * 0.7, pathOffset: tailSlide }}
+          {/* the little snake */}
+          <g>
+            {Array.from({ length: BODY_N }).map((_, k) => (
+              <motion.circle
+                key={k}
+                ref={(el) => {
+                  dotsRef.current[k] = el
+                }}
+                r={k === 0 ? 6 : Math.max(3.4, 6.4 - k * 0.18)}
+                fill={k < 3 ? '#c8182b' : '#a6101f'}
+                style={{ opacity: 1 }}
+              />
+            ))}
+            <g ref={headRef}>
+              <circle r={HEAD_R} fill="#e8e4da" />
+              {!reduce && <circle r={3} fill="#a6101f" />}
+            </g>
+          </g>
+
+          {/* waypoints — stay dim until passed */}
+          {geo.pts.map((p, i) => {
+            const isActive = active === i
+            const seen = i <= reached
+            return (
+              <g key={SECTIONS[i].id} opacity={seen ? 1 : 0.25}>
+                {isActive && (
+                  <circle cx={p[0]} cy={p[1]} r={12} fill="none" stroke="rgba(166,16,31,0.5)" strokeWidth={1} />
+                )}
+                <circle
+                  cx={p[0]}
+                  cy={p[1]}
+                  r={isActive ? 3.4 : 2}
+                  fill={isActive ? '#e8e4da' : '#5d5a52'}
+                  stroke="#000"
+                  strokeWidth={0.8}
                 />
-                {/* body — the walking snake */}
-                <motion.path
-                  ref={pathRef}
-                  d={geo.d}
-                  fill="none"
-                  stroke="#a6101f"
-                  strokeWidth={2.2}
-                  strokeLinecap="round"
-                  style={{
-                    pathLength: SEG,
-                    pathSpacing: 1 - SEG,
-                    pathOffset: slide,
-                    filter: 'drop-shadow(0 0 6px rgba(166,16,31,0.8))',
-                  }}
-                />
-              </>
-            )}
-
-            {/* nodes — appear only once reached */}
-            {geo.pts.map((p, i) => {
-              const isActive = active === i
-              const seen = i <= reached
-              return (
-                <g key={SECTIONS[i].id} opacity={seen ? 1 : 0.14}>
-                  {isActive && (
-                    <circle cx={p[0]} cy={p[1]} r={10} fill="none" stroke="rgba(166,16,31,0.4)" strokeWidth={1} />
-                  )}
-                  <circle
-                    cx={p[0]}
-                    cy={p[1]}
-                    r={isActive ? 3.2 : 1.7}
-                    fill={isActive ? '#e8e4da' : '#5d5a52'}
-                    stroke="#000"
-                    strokeWidth={0.8}
-                  />
-                  <text
-                    x={p[0]}
-                    y={p[1] - 10}
-                    textAnchor="middle"
-                    fontSize={7}
-                    fontFamily="IBM Plex Mono, monospace"
-                    fill={isActive ? '#e8e4da' : '#6a675f'}
-                    opacity={isActive || seen ? 1 : 0}
-                  >
-                    {SECTIONS[i].num}
-                  </text>
-                </g>
-              )
-            })}
-
-            {/* head */}
-            {!reduce && (
-              <g ref={arrowRef}>
-                <polygon points="-5,-7 6,0 -5,7" fill="#a6101f" />
+                <text
+                  x={p[0]}
+                  y={p[1] - 12}
+                  textAnchor="middle"
+                  fontSize={7}
+                  fontFamily="IBM Plex Mono, monospace"
+                  fill={isActive ? '#e8e4da' : '#77736a'}
+                  opacity={isActive ? 1 : 0.5}
+                >
+                  {SECTIONS[i].num}
+                </text>
               </g>
-            )}
-          </motion.g>
+            )
+          })}
         </svg>
       </div>
     </div>
